@@ -1,0 +1,25 @@
+.bg{
+    background-image: url("./sf-images/photo-1504674900247-0877df9cc836.avif");
+    background-repeat: no-repeat;
+    width: 100vw; 
+    height: 100vh;
+    background-position: center;
+    background-size: cover;
+    overflow: auto;
+}
+
+.header{
+    margin-top: 20px;
+    background-color: grey;
+    text-align: center;
+    font-size: 5rem
+}
+
+.label-text{
+    
+    font-size: 2rem
+}
+
+.btn_container{
+    width: 30%
+}
