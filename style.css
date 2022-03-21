@@ -1,5 +1,5 @@
 .bg{
-    background-image: url("https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80");
+    background-image: url(./sf-images/fridge.jpg);
     background-repeat: no-repeat;
     width: 100vw; 
     height: 100vh;
@@ -11,12 +11,14 @@
 .header{
     margin-top: 20px;
     margin-bottom: 50px;
-    background-color: grey;
+    background: rgb(151, 151, 151, .75);
     text-align: center;
-    font-size: 5rem
+    font-size: 5rem;
+    font-family: 'Monoton', cursive;
 }
 
 .label-text{
+    color: black;
     width: 100%;
     font-size: 2rem;
     text-align: center;
@@ -36,4 +38,13 @@
 
 .box-border{
     border: 1px solid black;
+
+}
+
+.div-container{
+    background: rgb(151, 151, 151, .75);
+}
+
+#ingredient-list{
+    margin-bottom: 20px;
 }
