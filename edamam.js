@@ -30,6 +30,19 @@ function onAddClick(){
 async function onSubmitClick(){
     let response = await fetch(`${ENDPOINT}/search?q=${query}&app_id=${APP_ID}&app_key=${APP_KEY}`)
     let data = await response.json()
+
+    for (let i = 0; i < data.hits.length; i++) {
+        let cardContainer = document.querySelector('.result-container')
+        let card = document.createElement("div")
+        card.setAttribute("class", "card")
+        cardContainer.appendChild(card)
+
+        let img = document.createElement("img")
+        img.setAttribute("src", data.hits[i].recipe.image)
+        card.appendChild(img)
+    
+    }
+    
     console.log(data)
     return data
 }
