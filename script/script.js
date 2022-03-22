@@ -12,6 +12,7 @@ add.addEventListener("click", onAddClick)
 // use to handle tags and query value for edamam
 let tagArray= []
 let query = ""
+let submitClicked = false
 
 // function for add event 
 function onAddClick(){
@@ -28,10 +29,13 @@ function onAddClick(){
         console.log(tagArray)
         query = tagArray.join()
     }
+
+    resetField(document.querySelector("#ingredient-list-text"))
 }
 
 // function for submit event 
 async function onSubmitClick() {
+    submitClicked = true
     // call to edamam api
     getRecipes(query)
         .then(data => {
@@ -69,8 +73,36 @@ async function onSubmitClick() {
             }
         })
 
+        if (submitClicked) {
+            let more = document.createElement('p')
+            more.innerText = "Not what you're looking for?"
+            let recipes = document.createElement('a')
+            recipes.setAttribute("class", "recipes-link")
+            recipes.innerText = "Try our in house recipes!"
+            document.querySelector('.button-container').appendChild(more)
+            document.querySelector('.button-container').appendChild(recipes)
+
+            let recipesLink = document.querySelector('.recipes-link')
+            recipesLink.addEventListener("click", linkClicked)
+        }
+
         tagArray = []
         empty(tagContainer)
+        submitClicked = false
+}
+
+
+
+async function linkClicked(e) {
+    console.log("clicked")
+    // let response = await fetch("https://localhost:3000/recipes")
+    // let data = await response.json()
+    // console.log(data)
+}
+
+
+function resetField(formField) {
+   formField.value = ''
 }
 
 // clear tags from page
