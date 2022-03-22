@@ -1,5 +1,5 @@
 .bg{
-    background-image: url(./sf-images/fridge.jpg);
+    background-image: url(../sf-images/fridge.jpg);
     background-repeat: no-repeat;
     width: 100vw; 
     height: 100vh;
@@ -47,4 +47,8 @@
 
 #ingredient-list{
     margin-bottom: 20px;
+}
+
+.card{
+    width: 50%
 }
