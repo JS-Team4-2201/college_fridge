@@ -1,4 +1,4 @@
-import { getRecipes } from "../../public/third-party-API"
+import { getRecipes } from "../third-party-API/edamamAPI.js"
 
 // const for needed selctions/buttons
 const add = document.querySelector(".add-btn")
