@@ -1,13 +1,15 @@
-import { getRecipes } from "../../public/third-party-API"
+import { getRecipes } from "../third-party-API/edamamAPI.js"
 
-// const for needed selctions/buttons
+// const variables for needed event handlers
 const add = document.querySelector(".add-btn")
-const results = document.querySelector(".results-btn")
+const submit = document.querySelector(".submit-btn")
+const clearTags = document.querySelector(".clear-btn")
 const tagContainer = document.querySelector(".tag-container")
 
 // event handlers
-results.addEventListener("click", onSubmitClick)
+submit.addEventListener("click", onSubmitClick)
 add.addEventListener("click", onAddClick)
+clearTags.addEventListener("click", onClearTagsClick)
 
 // use to handle tags and query value for edamam
 let tagArray= []
@@ -87,17 +89,18 @@ async function onSubmitClick() {
         }
 
         tagArray = []
-        empty(tagContainer)
         submitClicked = false
 }
-
-
 
 async function linkClicked(e) {
     console.log("clicked")
     // let response = await fetch("https://localhost:3000/recipes")
     // let data = await response.json()
     // console.log(data)
+}
+
+function onClearTagsClick() {
+    empty(tagContainer)
 }
 
 
@@ -111,3 +114,20 @@ function empty(element) {
         element.firstElementChild.remove();
      }
 }
+
+//modal incorporation code
+const addModal = document.querySelector("#add-modal")
+const addModalBtn = document.querySelector("#add-recipes")
+const updateModal = document.querySelector("#update-modal")
+const deleteModal = document.querySelector("#delete-modal")
+
+addModalBtn.addEventListener("click", () => {
+    const addSpan = document.querySelector(".close")
+    addModal.style.display = "flex"
+    addSpan.onclick = () => addModal.style.display = "none"
+    // window.onclick = (event) => {
+    //     if (event.target == addModal) {
+    //       addModal.style.display = "none";
+    //     }
+    //   }
+})

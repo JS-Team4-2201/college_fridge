@@ -52,6 +52,24 @@
 #logo{
     width: 100%;
 }
+
+.modal {
+    display: none; 
+    position: fixed; /* Stay in place */
+    z-index: 1;
+    left: 1500px;
+    top: 100px;
+    width: 400px; 
+    height: 250px; 
+    opacity: 0.8;
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.form{
+    margin: 20px
+}
+
 /* test */
 .sidenav {
     height: 100%;

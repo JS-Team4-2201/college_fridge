@@ -57,8 +57,8 @@
                     <div class="tag-container d-flex justify-content-evenly flex-wrap flex-row"></div>
                 </div>
                 <div class="button-container box-border">
-                    <button type="button" class="results-btn btn-fill btn btn-success">Submit</button> 
-                    <!-- <button type="button" class="btn-fill btn btn-primary">Add your own recipe</button> -->
+                    <button type="button" class="submit-btn btn-fill btn btn-success">Submit</button> 
+                    <button type="button" class="btn-fill clear-btn btn btn-primary">Clear Tags</button>
                 </div>
             </section>
 
@@ -70,13 +70,13 @@
                 <label id="result-label" class="label-text" for="results">Results</label>
 
                 <!-- add recipe modal button -->
-                <!-- <button type="button" id="add-recipes" class="btn-fill btn btn-primary">Add your own recipe</button> -->
+                <button type="button" id="add-recipes" class="btn-fill btn btn-primary">Add your own recipe</button>
 
                 <div id="add-modal" class="modal">
                     <!-- Modal content -->
                     <div class="modal-content">
                       <span class="close">&times;</span>
-                      <form action="/recipes" method="POST">
+                      <form action="/recipes" method="POST" class="d-flex flex-column form">
                         <input type="text" placeholder="Recipe name" name="title">
                         <input type="text" placeholder="Ingredients" name="ingredients">
                         <input type="text" placeholder="Link to recipes (if avaiable)" name="recipeUrl">
