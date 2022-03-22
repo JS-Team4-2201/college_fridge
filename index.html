@@ -58,7 +58,7 @@
                 </div>
                 <div class="button-container box-border">
                     <button type="button" class="results-btn btn-fill btn btn-success">Submit</button> 
-                    <button type="button" class="btn-fill btn btn-primary">Add your own recipe</button>
+                    <!-- <button type="button" class="btn-fill btn btn-primary">Add your own recipe</button> -->
                 </div>
             </section>
 
@@ -66,11 +66,57 @@
             <section class="col-md-1"></section>
 
             <!-- results section -->
-            <section class="d-flex flex-row div-container col-md-8">
+            <section class="div-container col-md-8">
                 <label id="result-label" class="label-text" for="results">Results</label>
+
+                <!-- add recipe modal button -->
+                <!-- <button type="button" id="add-recipes" class="btn-fill btn btn-primary">Add your own recipe</button> -->
+
+                <div id="add-modal" class="modal">
+                    <!-- Modal content -->
+                    <div class="modal-content">
+                      <span class="close">&times;</span>
+                      <form action="/recipes" method="POST">
+                        <input type="text" placeholder="Recipe name" name="title">
+                        <input type="text" placeholder="Ingredients" name="ingredients">
+                        <input type="text" placeholder="Link to recipes (if avaiable)" name="recipeUrl">
+                        <input type="text" placeholder="Photo of recipe" name="imageUrl">
+                        <button type="submit">Submit</button>
+                      </form>
+                    </div>
+                  
+                  </div>
+
+                  <div id="update-modal" class="modal">
+                    <!-- Modal content -->
+                    <div class="modal-content">
+                      <span class="close">&times;</span>
+                      <form action="/recipes" method="PUT">
+                        <input type="text" placeholder="Recipe name" name="title">
+                        <input type="text" placeholder="Ingredients" name="ingredients">
+                        <input type="text" placeholder="Link to recipes (if avaiable)" name="recipeUrl">
+                        <input type="text" placeholder="Photo of recipe" name="imageUrl">
+                        <button type="submit">Submit</button>
+                      </form>
+                    </div>
+                  
+                  </div>
+
+                  <div id="delete-modal" class="modal">
+                    <!-- Modal content -->
+                    <div class="modal-content">
+                      <span class="close">&times;</span>
+                      <form action="/recipes" method="DELETE">
+                        <input type="text" placeholder="Enter name of recipe you want to delete" name="title">
+                        <button type="submit">Submit</button>
+                      </form>
+                    </div>
+                  
+                  </div>
+                  
+
                 
-                <div class="result-container">
-                </div>
+                <div class="result-container d-flex flex-wrap justify-content-evenly"></div>
             </section>
         </div>
 
