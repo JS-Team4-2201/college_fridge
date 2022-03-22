@@ -12,12 +12,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Monoton&display=swap" rel="stylesheet"> 
     <!-- Internal CSS -->
-    <link rel="stylesheet" href="./public/style/style.css">
+    <link rel="stylesheet" href="style/style.css">
 </head>
 <body class="bg">
     <!-- <span id="open-nav" onclick="openNav()">&#9776; Menu</span> -->
     <header class="header container box-border">
-        <img id="logo" src="./public/sf-images/logo.gif" alt="">
+        <img id="logo" src="sf-images/logo.gif" alt="">
     </header>
 
     <!-- sidenav -->
@@ -57,8 +57,8 @@
                     <div class="tag-container d-flex justify-content-evenly flex-wrap flex-row"></div>
                 </div>
                 <div class="button-container box-border">
-                    <button type="button" class="submit-btn btn-fill btn btn-success">Submit</button> 
-                    <button type="button" class="btn-fill clear-btn btn btn-primary">Clear Tags</button>
+                    <button type="button" class="results-btn btn-fill btn btn-success">Submit</button> 
+                    <!-- <button type="button" class="btn-fill btn btn-primary">Add your own recipe</button> -->
                 </div>
             </section>
 
@@ -70,13 +70,13 @@
                 <label id="result-label" class="label-text" for="results">Results</label>
 
                 <!-- add recipe modal button -->
-                <button type="button" id="add-recipes" class="btn-fill btn btn-primary">Add your own recipe</button>
+                <!-- <button type="button" id="add-recipes" class="btn-fill btn btn-primary">Add your own recipe</button> -->
 
                 <div id="add-modal" class="modal">
                     <!-- Modal content -->
                     <div class="modal-content">
                       <span class="close">&times;</span>
-                      <form action="/recipes" method="POST" class="d-flex flex-column form">
+                      <form action="/recipes" method="POST">
                         <input type="text" placeholder="Recipe name" name="title">
                         <input type="text" placeholder="Ingredients" name="ingredients">
                         <input type="text" placeholder="Link to recipes (if avaiable)" name="recipeUrl">
@@ -119,12 +119,19 @@
                 <div class="result-container d-flex flex-wrap justify-content-evenly"></div>
             </section>
         </div>
-
     </div>
+    <% for(var i = 0; i < recipes.length; i++) {%>
+        <li class="recipes">
+        <!-- Output name from the iterated quote object -->
+            <span><%= recipes[i].title %></span>:
+        <!-- Output quote from the iterated quote object -->
+            <span><%= recipes[i].ingredients %></span>
+        </li>
+    <% } %>
     <!-- Bootstrap js -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <!-- Internal js -->
-    <script  type="module" src="./public/script/script.js"></script>
+    <script  type="module" src="script/script.js"></script>
 
 </body>
 </html>

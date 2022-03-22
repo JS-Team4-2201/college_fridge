@@ -16,8 +16,16 @@ MongoClient.connect("mongodb+srv://CFridge:BudgetFood2022@cluster0.ykuti.mongodb
 
         app.set("view engine", "ejs")
         app.use(bodyParser.urlencoded({ extended: true }))
-        app.use(express.static("public"))
+        app.use(express.static(__dirname + "/public"))
         app.use(bodyParser.json())
+
+        app.get('/', (req,res) => {
+            db.collection('recipes').find().toArray()
+            .then(results =>{
+                console.log(results);
+                res.render('index.ejs', {recipes: results})
+            })
+        })
 
         app.listen(3000, function() {
             console.log("listening on 3000")
