@@ -27,6 +27,23 @@ MongoClient.connect("mongodb+srv://CFridge:BudgetFood2022@cluster0.ykuti.mongodb
             })
         })
 
+        app.post('/recipes', (req,res) => {
+            recipesCollection.insertOne(req.body)
+                .then(result => {
+                    console.log(result)
+                    res.redirect('/')
+                })
+                .catch(error => console.error(error))
+        })
+
+        // Might have to change the criteteria on what we delete later
+        app.delete('/recipes', (req,res) => {
+            recipesCollection.deleteOne(
+                { title: req.body.title }
+                )
+            .catch(error => console.error(error))
+        })
+
         app.listen(3000, function() {
             console.log("listening on 3000")
         })
