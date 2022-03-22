@@ -15,31 +15,61 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg">
+    <!-- <span id="open-nav" onclick="openNav()">&#9776; Menu</span> -->
     <header class="header container box-border">
-        <h1>The College Fridge</h1>
+        <img id="logo" src="./sf-images/logo.gif" alt="">
     </header>
+
+    <!-- sidenav -->
+    <!-- <div id="mySidenav" class="sidenav" style="width: 250px;">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+
+        <section class="div-container box-border">
+            <label class="label-text" for="ingredient">Ingredients</label>
+            <form id="ingredient-list" class="d-flex justify-content-evenly">
+                <input id="ingredient-list-text" type="text" placeholder="Enter a ingredient">
+                <button type="button" class="add-btn btn btn-success">Add</button>
+            </form>
+            <div class="box-border">
+                <label class="label-text" for="tags">Tags</label>
+                <div class="tag-container d-flex justify-content-evenly flex-wrap flex-row"></div>
+            </div>
+            <div class="button-container box-border">
+                <button type="button" class="results-btn btn-fill btn btn-success">Submit</button> 
+                <button type="button" class="btn-fill btn btn-primary">Reset</button>
+            </div>
+        </section>
+    </div> -->
+
+    <!-- body container and formats the space (contains the form and the results)-->
     <div class="container-lg">
-        <div class="d-flex box-border">
+        <!-- comp-div (complete div) that contains the form and the results -->
+        <div class="comp-div d-flex box-border">
+            <!-- spaced the form portion to take 3 of the 12 grid spaces -->
             <section class="div-container box-border col-md-3">
                 <label class="label-text" for="ingredient">Ingredients</label>
-                <form id="ingredient-list">
-                    <input type="text" placeholder="Enter a ingredient">
+                <form id="ingredient-list" class="d-flex justify-content-evenly">
+                    <input id="ingredient-list-text" type="text" placeholder="Enter a ingredient">
                     <button type="button" class="add-btn btn btn-success">Add</button>
                 </form>
                 <div class="box-border">
                     <label class="label-text" for="tags">Tags</label>
-                    <div class="tag-container"></div>
+                    <div class="tag-container d-flex justify-content-evenly flex-wrap flex-row"></div>
                 </div>
                 <div class="button-container box-border">
-
-                    <button type="button" class="results-btn btn-fill btn btn-primary">Submit</button>                </div>
+                    <button type="button" class="results-btn btn-fill btn btn-success">Submit</button> 
+                    <button type="button" class="btn-fill btn btn-primary">Add your own recipe</button>
+                </div>
             </section>
-            <section class="col-md-1"></section>
-            <section class="div-container col-md-8">
 
+            <!-- one empty section to space out the two sections -->
+            <section class="col-md-1"></section>
+
+            <!-- results section -->
+            <section class="d-flex flex-row div-container col-md-8">
                 <label id="result-label" class="label-text" for="results">Results</label>
+                
                 <div class="result-container">
-                    Example image
                 </div>
             </section>
         </div>

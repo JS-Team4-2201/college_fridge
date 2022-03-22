@@ -1,11 +1,8 @@
 .bg{
     background-image: url(./sf-images/fridge.jpg);
     background-repeat: no-repeat;
-    width: 100vw; 
-    height: 100vh;
-    background-position: center;
-    background-size: cover;
-    overflow: auto;
+    background-attachment: fixed;
+    background-size: 100% 100%;
 }
 
 .header{
@@ -42,9 +39,65 @@
 }
 
 .div-container{
-    background: rgb(151, 151, 151, .75);
+    background: rgb(151, 151, 151, .65);
 }
 
 #ingredient-list{
     margin-bottom: 20px;
+}
+#ingredient-list-text{
+    width: 80%;
+}
+
+#logo{
+    width: 100%;
+}
+/* test */
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+.sidenav a {
+    padding: 8px 8px 8px 8px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+#open-nav{
+    margin-left: 20px;
+    position: fixed;
+    font-size:30px;
+    cursor:pointer;
+    z-index: 1;
+    color: white;
+}
+
+@media only screen and (max-width: 425px){
+    .bg{
+        background-repeat: repeat-y;
+        background-size: 100%;
+    }
+    .comp-div{
+        flex-direction: column;
+    }
 }
