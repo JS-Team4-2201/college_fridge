@@ -1,12 +1,11 @@
 const express = require("express");
 const bodyParser = require('body-parser')
-const { sendFile } = require("express/lib/response");
-const res = require("express/lib/response");
-const { LEGAL_TCP_SOCKET_OPTIONS } = require("mongodb");
+require('dotenv').config({path: './config/.env'})
+
 const app = express();
 const MongoClient = require("mongodb").MongoClient;
 
-MongoClient.connect("mongodb+srv://CFridge:BudgetFood2022@cluster0.ykuti.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", {
+MongoClient.connect(process.env.CONN_STRING, {
     useUnifiedTopology: true})
     .then(client => {
         console.log("Connected to Database")
@@ -44,8 +43,10 @@ MongoClient.connect("mongodb+srv://CFridge:BudgetFood2022@cluster0.ykuti.mongodb
             .catch(error => console.error(error))
         })
 
-        app.listen(3000, function() {
-            console.log("listening on 3000")
-        })
+       app.listen(process.env.PORT, function() {
+         console.log(`listening on ${process.env.PORT}`)
+       }
     })
     .catch(error => console.error(error))
+
+

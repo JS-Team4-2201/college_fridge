@@ -102,17 +102,23 @@ async function onSubmitClick() {
                 recipeName.innerText = currentRecipe.label
                 cardBody.appendChild(recipeName)
 
-                for (const ingredient of currentRecipe.ingredients){
+                for (const ingredient of currentRecipe.ingredients){  
                     let currentIngredient = document.createElement("p")
                     currentIngredient.setAttribute("class", "card-text")
                     currentIngredient.innerText = ingredient.food
                     cardBody.appendChild(currentIngredient)
                 }
-            
+
+                let link = document.createElement('a')
+                link.innerText = "See Full Recipe"
+                cardBody.appendChild(link)
+                link.setAttribute("href",  currentRecipe.url)
+                link.setAttribute("target",  "_blank")
                 card.appendChild(cardBody)
 
             }
         })
+        .catch(err => console.error(err))
 
         if (submitClicked) {
             let more = document.createElement('p')
@@ -133,9 +139,8 @@ async function onSubmitClick() {
 
 async function linkClicked(e) {
     console.log("clicked")
-    // let response = await fetch("https://localhost:3000/recipes")
-    // let data = await response.json()
-    // console.log(data)
+    let hiddenButtons = document.querySelector(".hide")
+    hiddenButtons.style.display = "flex"
 }
 
 function onClearTagsClick() {
@@ -155,19 +160,35 @@ function empty(element) {
      }
 }
 
-//modal incorporation code
-const addModal = document.querySelector("#add-modal")
+// const for modal buttons
 const addModalBtn = document.querySelector("#add-recipes")
-const updateModal = document.querySelector("#update-modal")
-const deleteModal = document.querySelector("#delete-modal")
+const updateModalBtn =document.querySelector("#update-recipes")
+const deleteModalBtn =document.querySelector("#delete-recipes")
 
+//modal event handlers
 addModalBtn.addEventListener("click", () => {
-    const addSpan = document.querySelector(".close")
-    addModal.style.display = "flex"
-    addSpan.onclick = () => addModal.style.display = "none"
-    // window.onclick = (event) => {
-    //     if (event.target == addModal) {
-    //       addModal.style.display = "none";
-    //     }
-    //   }
+    const addModal = document.querySelector("#add-modal")
+    displayModal(addModal)
+
 })
+
+updateModalBtn.addEventListener("click", () => {
+    const updateModal = document.querySelector("#update-modal")
+    displayModal(updateModal)
+})
+
+deleteModalBtn.addEventListener("click", ()=> {
+    const deleteModal = document.querySelector("#delete-modal")
+    displayModal(deleteModal)
+})
+
+// function that takes care of displaying modal
+function displayModal(modal) {
+    modal.style.display = "block"
+    modal.setAttribute("class", "show")
+
+    const close = document.querySelector(".close")
+    close.addEventListener("click", () => {
+        modal.style.display = "none"
+    })
+}
