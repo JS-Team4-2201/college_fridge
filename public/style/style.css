@@ -53,21 +53,44 @@
     width: 100%;
 }
 
-.modal {
+/* .modal {
     display: none; 
-    position: fixed; /* Stay in place */
+    position: fixed; 
     z-index: 1;
     left: 1500px;
     top: 100px;
     width: 400px; 
     height: 250px; 
     opacity: 0.8;
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    background-color: rgb(0,0,0); 
+    background-color: rgba(0,0,0,0.4); 
+} */
+
+#add-modal{
+    display:none;
+    position: fixed;
+    z-index: 1;
+    opacity: 0.6;
+    left: 1600px;
+    top: 0;
 }
 
-.form{
+/* .form{
     margin: 20px
+}
+
+.form-field{
+
+} */
+
+.hide{
+    display: none;
+    justify-content: space-evenly;
+    margin-bottom: 10px
+}
+
+.hide button{
+    width: 30%
 }
 
 /* test */
