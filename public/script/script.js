@@ -24,7 +24,7 @@ pressEnter.onkeydown = (e) => {
     if (e.keyCode === 13) {
         e.preventDefault()
         // console.log("submit")
-        onEnterPress()
+        onAddClick()
     }
 };
 
@@ -39,21 +39,7 @@ function onAddClick(){
         query = tagArray.join()
         renderElements(tagBoxValue)   
     }
-
     resetField(document.querySelector("#ingredient-list-text")) 
-}
-
-// function to add on pressEnter
-function onEnterPress() {
-    const enterInput = document.querySelector("#ingredient-list")
-    const tagBoxValue = enterInput.elements[0].value
-
-    if(tagBoxValue === "") {
-        alert("No ingredient added, please try again.")
-    } else {
-        query = tagArray.join()
-        renderElements(tagBoxValue)
-    }
 }
 
 //  removing ingredient from 'Tags' section and array
