@@ -2,6 +2,7 @@ import { getRecipes } from "../third-party-API/edamamAPI.js"
 
 // const variables for needed event handlers
 const add = document.querySelector(".add-btn")
+const pressEnter = document.querySelector("input")  
 const submit = document.querySelector(".submit-btn")
 const clearTags = document.querySelector(".clear-btn")
 const tagContainer = document.querySelector(".tag-container")
@@ -11,25 +12,48 @@ submit.addEventListener("click", onSubmitClick)
 add.addEventListener("click", onAddClick)
 clearTags.addEventListener("click", onClearTagsClick)
 
+
+
 // use to handle tags and query value for edamam
 let tagArray= []
 let query = ""
 let submitClicked = false
 
-// function for add event 
+// to handle user input with Enter key
+pressEnter.onkeydown = (e) => {
+    if (e.keyCode === 13) {
+        e.preventDefault()
+        // console.log("submit")
+        onEnterPress()
+    }
+};
+
 // function for add event 
 function onAddClick(){
     const tagBox = document.querySelector("#ingredient-list")
     const tagBoxValue = tagBox.elements[0].value
 
     if(tagBoxValue === '') {
-        alert("No tag value added, please try again.")
+        alert("No ingredient submitted, please try again.")
     } else {
         query = tagArray.join()
         renderElements(tagBoxValue)   
     }
 
-    resetField(document.querySelector("#ingredient-list-text"))
+    resetField(document.querySelector("#ingredient-list-text")) 
+}
+
+// function to add on pressEnter
+function onEnterPress() {
+    const enterInput = document.querySelector("#ingredient-list")
+    const tagBoxValue = enterInput.elements[0].value
+
+    if(tagBoxValue === "") {
+        alert("No ingredient added, please try again.")
+    } else {
+        query = tagArray.join()
+        renderElements(tagBoxValue)
+    }
 }
 
 //  removing ingredient from 'Tags' section and array
@@ -130,6 +154,7 @@ async function linkClicked(e) {
 
 function onClearTagsClick() {
     empty(tagContainer)
+    tagArray = []
 }
 
 
