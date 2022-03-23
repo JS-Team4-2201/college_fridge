@@ -27,6 +27,7 @@ MongoClient.connect(process.env.CONN_STRING, {
         })
 
         app.post('/recipes', (req,res) => {
+            //console.log(req.body)
             recipesCollection.insertOne(req.body)
                 .then(result => {
                     console.log(result)
@@ -45,7 +46,7 @@ MongoClient.connect(process.env.CONN_STRING, {
 
        app.listen(process.env.PORT, function() {
          console.log(`listening on ${process.env.PORT}`)
-       }
+       })
     })
     .catch(error => console.error(error))
 
