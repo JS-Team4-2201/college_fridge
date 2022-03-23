@@ -35,17 +35,37 @@ MongoClient.connect(process.env.CONN_STRING, {
                 .catch(error => console.error(error))
         })
 
+        app.put('/recipes', (req,res) => {
+            recipesCollection.findOneAndUpdate(
+                {title: req.body.title},
+                {
+                    $set: {
+                        title: req.body.title,
+                        ingredients: req.body.ingredients,
+                        imageUrl: req.body.imageUrl,
+                        recipeUrl: req.body.recipeUrl
+                    }
+                }
+            )
+            .then(result => {
+                console.log(result)
+                res.redirect('/')
+            })
+            .catch(error => console.error(error))
+        })
+
         // Might have to change the criteteria on what we delete later
         app.delete('/recipes', (req,res) => {
             recipesCollection.deleteOne(
                 { title: req.body.title }
-                )
+            )
+            .then(res => res.json(`recipe for ${req.body.title} successfully deleted`))
             .catch(error => console.error(error))
         })
 
        app.listen(process.env.PORT, function() {
          console.log(`listening on ${process.env.PORT}`)
-       }
+       })
     })
     .catch(error => console.error(error))
 
