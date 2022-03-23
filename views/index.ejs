@@ -102,7 +102,7 @@
                           </button>
                         </div>
                         <div class="modal-body">
-                          <form action="/recipes" method="POST">
+                          <form id="addRecipe" >
                             <div class="form-group">
                               <label for="recipe-name" class="col-form-label">Recipe Name:</label>
                               <input type="text" class="form-control" name="title">
@@ -119,10 +119,10 @@
                                 <label for="link-to-recipes" class="col-form-label">Photo of Recipe:</label>
                                 <input class="form-control" name="imageUrl"></input>
                             </div>
+                            <div class="modal-footer">
+                              <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
                           </form>
-                        </div>
-                        <div class="modal-footer">
-                          <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
                       </div>
                     </div>
@@ -157,7 +157,7 @@
                   
 
                 
-                <div class="result-container d-flex flex-wrap justify-content-evenly"></div>
+                <div id="results-container" class="result-container d-flex flex-wrap justify-content-evenly"></div>
             </section>
         </div>
     </div>
