@@ -26,9 +26,26 @@ MongoClient.connect(process.env.CONN_STRING, {
             })
         })
 
-        app.listen(process.env.PORT, function() {
-            console.log("listening on 3000")
+        app.post('/recipes', (req,res) => {
+            recipesCollection.insertOne(req.body)
+                .then(result => {
+                    console.log(result)
+                    res.redirect('/')
+                })
+                .catch(error => console.error(error))
         })
+
+        // Might have to change the criteteria on what we delete later
+        app.delete('/recipes', (req,res) => {
+            recipesCollection.deleteOne(
+                { title: req.body.title }
+                )
+            .catch(error => console.error(error))
+        })
+
+       app.listen(process.env.PORT, function() {
+         console.log(`listening on ${process.env.PORT}`)
+       }
     })
     .catch(error => console.error(error))
 

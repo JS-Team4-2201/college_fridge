@@ -2,6 +2,7 @@ import { getRecipes } from "../third-party-API/edamamAPI.js"
 
 // const variables for needed event handlers
 const add = document.querySelector(".add-btn")
+const pressEnter = document.querySelector("input")  
 const submit = document.querySelector(".submit-btn")
 const clearTags = document.querySelector(".clear-btn")
 const tagContainer = document.querySelector(".tag-container")
@@ -11,10 +12,21 @@ submit.addEventListener("click", onSubmitClick)
 add.addEventListener("click", onAddClick)
 clearTags.addEventListener("click", onClearTagsClick)
 
+
+
 // use to handle tags and query value for edamam
 let tagArray= []
 let query = ""
 let submitClicked = false
+
+// to handle user input with Enter key
+pressEnter.onkeydown = (e) => {
+    if (e.keyCode === 13) {
+        e.preventDefault()
+        // console.log("submit")
+        onAddClick()
+    }
+};
 
 // function for add event 
 function onAddClick(){
@@ -22,18 +34,45 @@ function onAddClick(){
     const tagBoxValue = tagBox.elements[0].value
 
     if(tagBoxValue === '') {
-        alert("not tag value added")
+        alert("No ingredient submitted, please try again.")
     } else {
-        let tag = document.createElement("p")
-        tag.innerText = tagBoxValue
-        tagContainer.appendChild(tag)
-        tagArray.push(tagBoxValue)
-        console.log(tagArray)
         query = tagArray.join()
+        renderElements(tagBoxValue)   
     }
-
-    resetField(document.querySelector("#ingredient-list-text"))
+    resetField(document.querySelector("#ingredient-list-text")) 
 }
+
+//  removing ingredient from 'Tags' section and array
+function removeIngredientFromTags(ingredient) {
+    let ingredients = tagArray
+    tagArray = tagArray.filter(ingredient => ingredient !== ingredients)
+    console.log(ingredient.innerText)
+    for (let i = 0; i < tagArray.length; i++) {      // iterating thru array to find clicked ingredient
+        if (tagArray[i] === ingredient.innerText){
+            tagArray.splice(i, 1)                    // removing from array once found
+            tagContainer.removeChild(ingredient)     // removing from tagContainer
+            break;
+        }
+    }
+    console.log(tagArray);
+}
+
+// creating element for tag, rendering ingredient elements to tagBox, tagContainer, and some style
+function renderElements(tagBoxValue) {
+    let tag = document.createElement("p")
+    tag.innerText = tagBoxValue
+    tag.style.backgroundColor = "yellow"    // styling (colors background of box containing ingredient)
+    tag.style.borderRadius = "10%"          // styling (changes style of box around ingredient to add soft edges)
+    tag.style.padding = "3px"               // styling (adds padding between edge of word and background box)
+    tagContainer.appendChild(tag)
+    tagArray.push(tagBoxValue)
+    console.log(tagArray)
+    
+    tag.style.cursor = "pointer"   // adds a change of cursor to pointer when hovering over ingredients
+    tag.onclick = () => removeIngredientFromTags(tag) // calls function to remove ingredient once clicked
+    
+}
+
 
 // function for submit event 
 async function onSubmitClick() {
@@ -106,6 +145,7 @@ async function linkClicked(e) {
 
 function onClearTagsClick() {
     empty(tagContainer)
+    tagArray = []
 }
 
 
