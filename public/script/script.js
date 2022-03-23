@@ -1,4 +1,3 @@
-
 import { getRecipes } from "../third-party-API/edamamAPI.js"
 
 // const variables for needed event handlers
@@ -7,7 +6,6 @@ const pressEnter = document.querySelector("input")
 const submit = document.querySelector(".submit-btn")
 const clearTags = document.querySelector(".clear-btn")
 const tagContainer = document.querySelector(".tag-container")
-let addRecipe = document.querySelector('#addRecipe')
 
 // event handlers
 submit.addEventListener("click", onSubmitClick)
@@ -15,12 +13,11 @@ add.addEventListener("click", onAddClick)
 clearTags.addEventListener("click", onClearTagsClick)
 
 
+
 // use to handle tags and query value for edamam
 let tagArray= []
 let query = ""
-
-// quick fix for the submit doc that appears after you submit/ subject to change
-let submitClicked = 0;
+let submitClicked = false
 
 // to handle user input with Enter key
 pressEnter.onkeydown = (e) => {
@@ -36,28 +33,20 @@ function onAddClick(){
     const tagBox = document.querySelector("#ingredient-list")
     const tagBoxValue = tagBox.elements[0].value
 
-    if(validInput(tagBoxValue) && tagBoxValue.length > 0) {
-        console.log(validInput(tagBoxValue))
-        let tempTagArray = tagBoxValue.split(',')
-        tagArray = tagArray.concat(tempTagArray);
-        console.log("tagArray: " + tagArray)
-        
-        renderElements(tempTagArray) 
+    if(tagBoxValue === '') {
+        alert("No ingredient submitted, please try again.")
     } else {
-        //split the value into a temp array to then concat with the original
-        alert("Not a valid ingredient, please try again.")
+        tagArray.push(tagBoxValue)
+        query = tagArray.join()
+        renderElements(tagBoxValue)   
     }
     resetField(document.querySelector("#ingredient-list-text")) 
-}
-
-function validInput(str){
-    return /^[\.a-zA-Z, ]*$/.test(str);
 }
 
 //  removing ingredient from 'Tags' section and array
 function removeIngredientFromTags(ingredient) {
     let ingredients = tagArray
-    //tagArray = tagArray.filter(ingredient => ingredient !== ingredients)
+    tagArray = tagArray.filter(ingredient => ingredient !== ingredients)
     console.log(ingredient.innerText)
     for (let i = 0; i < tagArray.length; i++) {      // iterating thru array to find clicked ingredient
         if (tagArray[i] === ingredient.innerText){
@@ -71,34 +60,24 @@ function removeIngredientFromTags(ingredient) {
 
 // creating element for tag, rendering ingredient elements to tagBox, tagContainer, and some style
 function renderElements(tagBoxValue) {
-    tagBoxValue.forEach(element => {
-        let tag = document.createElement("p")
-        tag.innerText = element;
-        tag.style.backgroundColor = "yellow"    // styling (colors background of box containing ingredient)
-        tag.style.borderRadius = "10%"          // styling (changes style of box around ingredient to add soft edges)
-        tag.style.padding = "3px"               // styling (adds padding between edge of word and background box)
-    
-        tag.style.cursor = "pointer"   // adds a change of cursor to pointer when hovering over ingredients
-        tag.onclick = () => removeIngredientFromTags(tag) // calls function to remove ingredient once clicked
-    
-        tagContainer.appendChild(tag)
-        
-    });
+    let tag = document.createElement("p")
+    tag.innerText = tagBoxValue
+    tag.style.backgroundColor = "yellow"    // styling (colors background of box containing ingredient)
+    tag.style.borderRadius = "10%"          // styling (changes style of box around ingredient to add soft edges)
+    tag.style.padding = "3px"               // styling (adds padding between edge of word and background box)
+    tagContainer.appendChild(tag)
+    tagArray.push(tagBoxValue)
     console.log(tagArray)
+    
+    tag.style.cursor = "pointer"   // adds a change of cursor to pointer when hovering over ingredients
+    tag.onclick = () => removeIngredientFromTags(tag) // calls function to remove ingredient once clicked
     
 }
 
 
 // function for submit event 
 async function onSubmitClick() {
-    clearResults();
-    submitClicked++;
-
-    if(tagArray.length === 0){
-        submitClicked = false;
-        return;
-    }
-    query = tagArray.join()
+    submitClicked = true
     // call to edamam api
     getRecipes(query)
         .then(data => {
@@ -109,11 +88,10 @@ async function onSubmitClick() {
                 const currentRecipe = data.hits[i].recipe
                 let cardContainer = document.querySelector('.result-container')
                 let card = document.createElement("div")
-                card.setAttribute("class", "card card-style")
+                card.setAttribute("class", "card")
                 cardContainer.appendChild(card)
 
                 let img = document.createElement("img")
-                img.setAttribute("class", "card-img-style")
                 img.setAttribute("src", currentRecipe.image)
                 card.appendChild(img)
 
@@ -125,21 +103,11 @@ async function onSubmitClick() {
                 recipeName.innerText = currentRecipe.label
                 cardBody.appendChild(recipeName)
 
-                let tagdiv = document.createElement('div');
-                tagdiv.setAttribute('class', 'd-flex flex-row flex-wrap justify-content-evenly')
-                cardBody.append(tagdiv)
-
                 for (const ingredient of currentRecipe.ingredients){  
                     let currentIngredient = document.createElement("p")
                     currentIngredient.setAttribute("class", "card-text")
                     currentIngredient.innerText = ingredient.food
-                    if(tagContains(currentIngredient)){
-                        currentIngredient.setAttribute('class', 'card-tag-match')
-                    }
-                    else{
-                        currentIngredient.setAttribute('class', 'card-tag-nomatch')
-                    }
-                    tagdiv.appendChild(currentIngredient)
+                    cardBody.appendChild(currentIngredient)
                 }
 
                 let link = document.createElement('a')
@@ -153,7 +121,7 @@ async function onSubmitClick() {
         })
         .catch(err => console.error(err))
 
-        if (submitClicked===1) {
+        if (submitClicked) {
             let more = document.createElement('p')
             more.innerText = "Not what you're looking for?"
             let recipes = document.createElement('a')
@@ -165,23 +133,15 @@ async function onSubmitClick() {
             let recipesLink = document.querySelector('.recipes-link')
             recipesLink.addEventListener("click", linkClicked)
         }
+
+        tagArray = []
+        submitClicked = false
 }
 
 async function linkClicked(e) {
-    clearResults();
+    console.log("clicked")
     let hiddenButtons = document.querySelector(".hide")
     hiddenButtons.style.display = "flex"
-
-
-}
-
-function clearResults(){
-    document.getElementById("results-container").innerHTML = "";
-}
-
-function tagContains(currentIngredient){
-    console.log(tagArray.some(element => element === currentIngredient.innerText));
-    return tagArray.some(element => element === currentIngredient.innerText)
 }
 
 function onClearTagsClick() {
@@ -210,6 +170,7 @@ const deleteModalBtn =document.querySelector("#delete-recipes")
 addModalBtn.addEventListener("click", () => {
     const addModal = document.querySelector("#add-modal")
     displayModal(addModal)
+
 })
 
 updateModalBtn.addEventListener("click", () => {
@@ -232,28 +193,3 @@ function displayModal(modal) {
         modal.style.display = "none"
     })
 }
-
-
-addRecipe.addEventListener('submit', (req, res) => {
-    req.preventDefault();
-    // console.log(addRecipe)
-    let arr = addRecipe.elements[1].value.split(',');
-    // console.log(addRecipe.elements[0].value);
-    // console.log(arr);
-    // console.log(addRecipe.elements[2].value);
-    // console.log( addRecipe[3].value)
-    fetch('/recipes', {
-        method: 'post',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-            title: addRecipe.elements[0].value,
-            ingredients: arr,
-            recipeUrl: addRecipe.elements[2].value,
-            imageUrl: addRecipe[3].value
-        })
-    })
-    // .then(res => {
-    //     if (res.ok) return res.json()
-    // })
-    //window.location.reload(true);
-})

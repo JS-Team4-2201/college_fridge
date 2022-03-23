@@ -133,24 +133,6 @@
     color: white;
 }
 
-/* .card-style{
-    height: auto;
-    width: auto;
-}
-.card-img-style{
-    size:100%;
-} */
-.card-tag-match{
-    background-color: yellow;
-    border-radius: 10%;
-    padding: 3px;
-}
-.card-tag-nomatch{
-    background-color: lightgray;
-    border-radius: 10%;
-    padding: 3px;
-}
-
 @media only screen and (max-width: 425px){
     .bg{
         background-repeat: repeat-y;
