@@ -36,6 +36,7 @@ function onAddClick(){
     if(tagBoxValue === '') {
         alert("No ingredient submitted, please try again.")
     } else {
+        tagArray.push(tagBoxValue)
         query = tagArray.join()
         renderElements(tagBoxValue)   
     }
