@@ -119,6 +119,9 @@ async function onSubmitClick() {
             recipesLink.addEventListener("click", linkClicked)
             submitClicked = true;
         }
+
+        const addModal = document.querySelector("#add-modal")
+        addModal.style.display = "none"
 }
 
 function createCard(item, imageURL, ingredients, recipeURL, id){
@@ -189,12 +192,13 @@ function linkClicked(e) {
             res.data.forEach(element => {
                 const card = createCard(element.title, element.imageUrl, element.ingredients, element.recipeUrl, element._id)
                 const buttonDiv = document.createElement('div')
+                buttonDiv.setAttribute("class", "card-btn-container")
                 const editBtn = document.createElement('button')
+                editBtn.setAttribute("class", "btn edit-btn card-btn")
                 editBtn.innerText = "Edit"
-                editBtn.setAttribute("id", "edit")
                 const deleteBtn = document.createElement('button')
-                deleteBtn.innerText = "Delete";
-                deleteBtn.setAttribute("id", "delete")
+                deleteBtn.innerText = "Delete"
+                deleteBtn.setAttribute("class", "btn delete-btn card-btn")
                 buttonDiv.appendChild(editBtn);
                 buttonDiv.appendChild(deleteBtn);
                 
@@ -202,8 +206,8 @@ function linkClicked(e) {
 
                 cardContainer.appendChild(card)
                 
-                const edit = document.querySelector("#edit")
-                edit.addEventListener("click", onEditClicked)
+                
+                editBtn.addEventListener("click", onEditClicked)
             });
         })
 }
@@ -268,6 +272,7 @@ function displayModal(modal) {
 
     const close = document.querySelector(".close")
     close.addEventListener("click", () => {
+        resetForm(addRecipe)
         modal.style.display = "none"
     })
 }

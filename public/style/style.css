@@ -80,6 +80,27 @@
     width: 30%
 }
 
+.card-btn-container{
+    align-content: center;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.card-btn{
+    border: 1px solid black;
+    width: 40%;
+    margin-bottom: 10px;
+    color: white
+}
+
+.edit-btn {
+    background: linear-gradient(to right, #3597e7, #eb08c5);
+}
+
+.delete-btn {
+    background: linear-gradient(to right, yellow, red);
+}
+
 .btn-fill {
     width: 100%;
 }
