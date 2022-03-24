@@ -142,7 +142,8 @@
 
 .card-style{
     width: 40%;
-    margin-bottom: 15px;
+    margin-bottom: 1rem;
+    max-height: 20%;
 }
 
 .in-house{
@@ -267,6 +268,29 @@
     color: white;
 }
 
+@media only screen and (max-width: 768px) {
+    .bg{
+        background-repeat: repeat-n;
+        background-size: 100%;
+        background-color: rgb(44, 43, 43);
+    }
+
+    .comp-div{
+        flex-direction: column;
+    }
+
+    .card-style{
+        width: 40%;
+        margin: 0 1rem 2rem 1rem;
+        max-height: 20%;
+    }
+
+    #add-recipes {
+        width: 70%;
+    }
+
+}
+
 @media only screen and (max-width: 425px) {
     .bg{
         background-repeat: repeat-n;
@@ -275,6 +299,16 @@
     }
     .comp-div{
         flex-direction: column;
+    }
+
+    .card-style{
+        width: 100%;
+        margin: 0 1rem 2rem 1rem;
+        max-height: 20%;
+    }
+
+    #add-recipes {
+        width: 70%;
     }
 
 }
