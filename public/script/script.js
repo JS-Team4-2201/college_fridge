@@ -13,12 +13,13 @@ let addRecipe = document.querySelector('#addRecipe')
 submit.addEventListener("click", onSubmitClick)
 add.addEventListener("click", onAddClick)
 clearTags.addEventListener("click", onClearTagsClick)
-recipesLink,addEventListener("click", linkClicked)
+recipesLink.addEventListener("click", linkClicked)
 
 
 // use to handle tags and query value for edamam
 let tagArray= []
 let query = ""
+let cardContainer = document.querySelector('.result-container')
 
 // quick fix for the submit doc that appears after you submit/ subject to change
 let submitClicked = false;
@@ -102,6 +103,280 @@ async function onSubmitClick() {
             console.log(data)
 
             for (let i = 0; i < data.hits.length; i++) {
+                let currentCard = data.hits[i].recipe;
+                
+                let card = createCard(currentCard.label, currentCard.image, currentCard.ingredients, currentCard.url)
+                cardContainer.appendChild(card)
+            }
+        })
+        .catch(err => console.error(err))
+
+        if (submitClicked===false) {
+            const inHouseText = document.querySelector(".in-house")
+            inHouseText.innerText = "Not what you're looking for?"
+            const recipes = document.createElement("a")
+            recipes.setAttribute("class", "in-house-link")
+            recipes.innerText = " Click here!"
+            inHouseText.appendChild(recipes)
+           
+
+            const recipesLink = document.querySelector('.in-house-link')
+            recipesLink.addEventListener("click", linkClicked)
+            submitClicked = true;
+        }
+}
+
+function createCard(item, imageURL, ingredients, recipeURL){
+    
+    let card = document.createElement("div")
+    card.setAttribute("class", "card card-style")
+    let img = document.createElement("img")
+    img.setAttribute("class", "card-img-style")
+    img.setAttribute("src", imageURL)
+    card.appendChild(img)
+    let cardBody = document.createElement("div")
+    cardBody.setAttribute("class", "card-body")
+    
+    let recipeName = document.createElement("h5")
+    recipeName.setAttribute("class", "card-title")
+    recipeName.innerText = item // gonna not work
+    cardBody.appendChild(recipeName)
+    let tagdiv = document.createElement('div');
+    tagdiv.setAttribute('class', 'd-flex flex-row flex-wrap justify-content-evenly')
+    cardBody.append(tagdiv)
+    for (const ingredient of ingredients){  
+        let currentIngredient = document.createElement("p")
+        currentIngredient.setAttribute("class", "card-text")
+        if(ingredient.food){
+            currentIngredient.innerText = ingredient.food.toLowerCase();
+        }
+        else{
+            currentIngredient.innerText = ingredient
+        }
+        //currentIngredient.innerText = ingredient.food // gonna break for inhouse
+        if(tagContains(currentIngredient)){
+            currentIngredient.setAttribute('class', 'card-tag-match')
+        }
+        else{
+            currentIngredient.setAttribute('class', 'card-tag-nomatch')
+        }
+        tagdiv.appendChild(currentIngredient)
+    }
+    let link = document.createElement('a')
+    link.innerText = "See Full Recipe"
+    cardBody.appendChild(link)
+    link.setAttribute("href",  recipeURL)
+    link.setAttribute("target",  "_blank")
+    card.appendChild(cardBody)
+    return(card);
+}
+
+// function createCard(item){
+
+//     const currentRecipe = item.recipe;
+//     let cardContainer = document.querySelector('.result-container')
+//     let card = document.createElement("div")
+//     card.setAttribute("class", "card card-style")
+//     cardContainer.appendChild(card)
+//     let img = document.createElement("img")
+//     img.setAttribute("class", "card-img-style")
+//     img.setAttribute("src", currentRecipe.image)
+//     card.appendChild(img)
+//     let cardBody = document.createElement("div")
+//     cardBody.setAttribute("class", "card-body")
+    
+//     let recipeName = document.createElement("h5")
+//     recipeName.setAttribute("class", "card-title")
+//     recipeName.innerText = currentRecipe.label
+//     cardBody.appendChild(recipeName)
+//     let tagdiv = document.createElement('div');
+//     tagdiv.setAttribute('class', 'd-flex flex-row flex-wrap justify-content-evenly')
+//     cardBody.append(tagdiv)
+//     for (const ingredient of currentRecipe.ingredients){  
+//         let currentIngredient = document.createElement("p")
+//         currentIngredient.setAttribute("class", "card-text")
+//         currentIngredient.innerText = ingredient.food.toLowerCase()
+//         if(tagContains(currentIngredient)){
+//             currentIngredient.setAttribute('class', 'card-tag-match')
+//         }
+//         else{
+//             currentIngredient.setAttribute('class', 'card-tag-nomatch')
+//         }
+//         tagdiv.appendChild(currentIngredient)
+//     }
+//     let link = document.createElement('a')
+//     link.innerText = "See Full Recipe"
+//     cardBody.appendChild(link)
+//     link.setAttribute("href",  currentRecipe.url)
+//     link.setAttribute("target",  "_blank")
+//     card.appendChild(cardBody)
+// }
+
+// function createInHouseCard (item){
+//     const currentRecipe = item;
+
+//     let cardContainer = document.querySelector('.result-container')
+//     let card = document.createElement("div")
+//     card.setAttribute("class", "card card-style")
+//     cardContainer.appendChild(card)
+//     let img = document.createElement("img")
+//     img.setAttribute("class", "card-img-style")
+//     img.setAttribute("src", currentRecipe.imageURL)
+//     card.appendChild(img)
+//     let cardBody = document.createElement("div")
+//     cardBody.setAttribute("class", "card-body")
+    
+//     let recipeName = document.createElement("h5")
+//     recipeName.setAttribute("class", "card-title")
+//     recipeName.innerText = currentRecipe.title
+//     cardBody.appendChild(recipeName)
+//     let tagdiv = document.createElement('div');
+//     tagdiv.setAttribute('class', 'd-flex flex-row flex-wrap justify-content-evenly')
+//     cardBody.append(tagdiv)
+//     for (const ingredient of currentRecipe.ingredients){  
+//         let currentIngredient = document.createElement("p")
+//         currentIngredient.setAttribute("class", "card-text")
+//         currentIngredient.innerText = ingredient.toLowerCase()
+//         if(tagContains(currentIngredient)){
+//             currentIngredient.setAttribute('class', 'card-tag-match')
+//         }
+//         else{
+//             currentIngredient.setAttribute('class', 'card-tag-nomatch')
+//         }
+//         tagdiv.appendChild(currentIngredient)
+//     }
+//     let link = document.createElement('a')
+//     link.innerText = "See Full Recipe"
+//     cardBody.appendChild(link)
+//     link.setAttribute("href",  currentRecipe.recipeURL)
+//     link.setAttribute("target",  "_blank")
+
+//     let buttonDiv = document.createElement('div')
+//     let editbtn = document.createElement('button')
+//     editbtn.innerText = "Edit";
+//     let deleteBtn = document.createElement('button')
+//     deleteBtn.innerText = "Delete";
+//     buttonDiv.appendChild(editbtn);
+//     buttonDiv.appendChild(deleteBtn);
+//     cardBody.appendChild(buttonDiv);
+//     card.appendChild(cardBody)
+// }
+
+async function linkClicked(e) {
+    clearResults();
+    let hiddenButtons = document.querySelector(".hide")
+    hiddenButtons.style.display = "flex"
+    
+    fetch("/recipe/recipes")
+        .then(res => res.json())
+        .then(res => {
+            res.data.forEach(element => {
+                let card = createCard(element.title, element.imageURL, element.ingredients, element.recipeURL)
+
+                let buttonDiv = document.createElement('div')
+                let editbtn = document.createElement('button')
+                editbtn.innerText = "Edit";
+                let deleteBtn = document.createElement('button')
+                deleteBtn.innerText = "Delete";
+                buttonDiv.appendChild(editbtn);
+                buttonDiv.appendChild(deleteBtn);
+                card.appendChild(buttonDiv);
+
+                cardContainer.appendChild(card)
+            });
+        })
+
+}
+
+function clearResults(){
+    document.getElementById("results-container").innerHTML = "";
+}
+
+function tagContains(currentIngredient){
+    console.log(tagArray.some(element => element === currentIngredient.innerText));
+    return tagArray.some(element => element === currentIngredient.innerText)
+}
+
+function onClearTagsClick() {
+    empty(tagContainer)
+    tagArray = []
+}
+
+
+function resetField(formField) {
+   formField.value = ''
+}
+
+// clear tags from page
+function empty(element) {
+    while(element.firstElementChild) {
+        element.firstElementChild.remove();
+     }
+}
+
+// const for modal buttons
+const addModalBtn = document.querySelector("#add-recipes")
+// const updateModalBtn =document.querySelector("#update-recipes")
+// const deleteModalBtn =document.querySelector("#delete-recipes")
+
+//modal event handlers
+addModalBtn.addEventListener("click", () => {
+    const addModal = document.querySelector("#add-modal")
+    displayModal(addModal)
+})
+
+// updateModalBtn.addEventListener("click", () => {
+//     const updateModal = document.querySelector("#update-modal")
+//     displayModal(updateModal)
+// })
+
+// deleteModalBtn.addEventListener("click", ()=> {
+//     const deleteModal = document.querySelector("#delete-modal")
+//     displayModal(deleteModal)
+// })
+
+// function that takes care of displaying modal
+function displayModal(modal) {
+    modal.style.display = "block"
+    modal.setAttribute("class", "show")
+
+    const close = document.querySelector(".close")
+    close.addEventListener("click", () => {
+        modal.style.display = "none"
+    })
+}
+
+
+addRecipe.addEventListener('submit', (req, res) => {
+    req.preventDefault();
+    let arr = addRecipe.elements[1].value.split(',');
+    fetch('/recipe', {
+        method: 'post',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            title: addRecipe.elements[0].value,
+            ingredients: arr,
+            recipeUrl: addRecipe.elements[2].value,
+            imageUrl: addRecipe[3].value
+        })
+    })
+})
+
+/*
+ showInHouse.eventlistener('click', (req,res)=>{
+     fetch('/recipe', {
+         method: 'get',
+     })
+     return the json we get into a variable and then pass that to the create card function
+ })
+*/
+
+
+
+
+
+/*
+for (let i = 0; i < data.hits.length; i++) {
 
                 const currentRecipe = data.hits[i].recipe
                 let cardContainer = document.querySelector('.result-container')
@@ -147,106 +422,4 @@ async function onSubmitClick() {
                 card.appendChild(cardBody)
 
             }
-        })
-        .catch(err => console.error(err))
-
-        if (submitClicked===false) {
-            const inHouseText = document.querySelector(".in-house")
-            inHouseText.innerText = "Not what you're looking for?"
-            const recipes = document.createElement("a")
-            recipes.setAttribute("class", "in-house-link")
-            recipes.innerText = " Click here!"
-            inHouseText.appendChild(recipes)
-           
-
-            const recipesLink = document.querySelector('.in-house-link')
-            recipesLink.addEventListener("click", linkClicked)
-            submitClicked = true;
-        }
-}
-
-async function linkClicked(e) {
-    clearResults();
-    let hiddenButtons = document.querySelector(".hide")
-    hiddenButtons.style.display = "flex"
-    
-    fetch("/recipe/recipes")
-        .then(res => res.json())
-        .then(res => console.log(res))
-
-}
-
-function clearResults(){
-    document.getElementById("results-container").innerHTML = "";
-}
-
-function tagContains(currentIngredient){
-    console.log(tagArray.some(element => element === currentIngredient.innerText));
-    return tagArray.some(element => element === currentIngredient.innerText)
-}
-
-function onClearTagsClick() {
-    empty(tagContainer)
-    tagArray = []
-}
-
-
-function resetField(formField) {
-   formField.value = ''
-}
-
-// clear tags from page
-function empty(element) {
-    while(element.firstElementChild) {
-        element.firstElementChild.remove();
-     }
-}
-
-// const for modal buttons
-const addModalBtn = document.querySelector("#add-recipes")
-const updateModalBtn =document.querySelector("#update-recipes")
-const deleteModalBtn =document.querySelector("#delete-recipes")
-
-//modal event handlers
-addModalBtn.addEventListener("click", () => {
-    const addModal = document.querySelector("#add-modal")
-    displayModal(addModal)
-})
-
-updateModalBtn.addEventListener("click", () => {
-    const updateModal = document.querySelector("#update-modal")
-    displayModal(updateModal)
-})
-
-deleteModalBtn.addEventListener("click", ()=> {
-    const deleteModal = document.querySelector("#delete-modal")
-    displayModal(deleteModal)
-})
-
-// function that takes care of displaying modal
-function displayModal(modal) {
-    modal.style.display = "block"
-    modal.setAttribute("class", "show")
-
-    const close = document.querySelector(".close")
-    close.addEventListener("click", () => {
-        modal.style.display = "none"
-    })
-}
-
-
-addRecipe.addEventListener('submit', (req, res) => {
-    req.preventDefault();
-    let arr = addRecipe.elements[1].value.split(',');
-    fetch('/recipe', {
-        method: 'post',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-            title: addRecipe.elements[0].value,
-            ingredients: arr,
-            recipeUrl: addRecipe.elements[2].value,
-            imageUrl: addRecipe[3].value
-        })
-    })
-})
-
+*/
