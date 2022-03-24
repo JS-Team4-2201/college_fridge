@@ -16,8 +16,8 @@
 </head>
 <body class="bg">
     <!-- <span id="open-nav" onclick="openNav()">&#9776; Menu</span> -->
-    <header class="header container box-border">
-        <img id="logo" src="sf-images/logo.gif" alt="">
+    <header class="container box-border">
+        <img id="logo" src="sf-images/newlogo.gif" alt="">
     </header>
 
     <!-- sidenav -->
@@ -44,19 +44,19 @@
     <!-- body container and formats the space (contains the form and the results)-->
     <div class="container-lg">
         <!-- comp-div (complete div) that contains the form and the results -->
-        <div class="comp-div d-flex box-border">
+        <div class="comp-div d-flex box-border1">
             <!-- spaced the form portion to take 3 of the 12 grid spaces -->
-            <section class="div-container box-border col-md-3">
+            <section class="div-container1 box-border2 col-md-3">
                 <label class="label-text" for="ingredient">Ingredients</label>
                 <form id="ingredient-list" class="d-flex justify-content-evenly">
-                    <input id="ingredient-list-text" type="text" placeholder="Enter a ingredient">
+                    <input id="ingredient-list-text" type="text" placeholder="Enter an ingredient">
                     <button type="button" class="add-btn btn btn-success">Add</button>
                 </form>
-                <div class="box-border">
+                <div class="box-border3">
                     <label class="label-text" for="tags">Tags</label>
                     <div class="tag-container d-flex justify-content-evenly flex-wrap flex-row"></div>
                 </div>
-                <div class="button-container box-border">
+                <div class="button-container box-border4">
                     <button type="button" class="submit-btn btn-fill btn btn-success">Submit</button> 
                     <button type="button" class="btn-fill clear-btn btn btn-primary">Clear Tags</button>
                 </div>
@@ -66,7 +66,7 @@
             <section class="col-md-1"></section>
 
             <!-- results section -->
-            <section class="div-container col-md-8">
+            <section class="div-container2 box-border2 col-md-8">
                 <label id="result-label" class="label-text" for="results">Results</label>
 
                 <!-- add recipe modal button -->
@@ -135,7 +135,7 @@
                       <form action="/recipes" method="PUT">
                         <input type="text" placeholder="Recipe name" name="title">
                         <input type="text" placeholder="Ingredients" name="ingredients">
-                        <input type="text" placeholder="Link to recipes (if avaiable)" name="recipeUrl">
+                        <input type="text" placeholder="Link to recipes (if available)" name="recipeUrl">
                         <input type="text" placeholder="Photo of recipe" name="imageUrl">
                         <button type="submit">Submit</button>
                       </form>
