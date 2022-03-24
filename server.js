@@ -12,7 +12,7 @@ app.use(bodyParser.json())
 
 startMongoServer()
 const recipe = require("./routes/recipeRoute")
-app.use("/recipe", recipe)
+app.use("/", recipe)
 
 app.listen(process.env.PORT, function() {
     console.log(`listening on ${process.env.PORT}`)

@@ -171,103 +171,14 @@ function createCard(item, imageURL, ingredients, recipeURL){
     return(card);
 }
 
-// function createCard(item){
 
-//     const currentRecipe = item.recipe;
-//     let cardContainer = document.querySelector('.result-container')
-//     let card = document.createElement("div")
-//     card.setAttribute("class", "card card-style")
-//     cardContainer.appendChild(card)
-//     let img = document.createElement("img")
-//     img.setAttribute("class", "card-img-style")
-//     img.setAttribute("src", currentRecipe.image)
-//     card.appendChild(img)
-//     let cardBody = document.createElement("div")
-//     cardBody.setAttribute("class", "card-body")
-    
-//     let recipeName = document.createElement("h5")
-//     recipeName.setAttribute("class", "card-title")
-//     recipeName.innerText = currentRecipe.label
-//     cardBody.appendChild(recipeName)
-//     let tagdiv = document.createElement('div');
-//     tagdiv.setAttribute('class', 'd-flex flex-row flex-wrap justify-content-evenly')
-//     cardBody.append(tagdiv)
-//     for (const ingredient of currentRecipe.ingredients){  
-//         let currentIngredient = document.createElement("p")
-//         currentIngredient.setAttribute("class", "card-text")
-//         currentIngredient.innerText = ingredient.food.toLowerCase()
-//         if(tagContains(currentIngredient)){
-//             currentIngredient.setAttribute('class', 'card-tag-match')
-//         }
-//         else{
-//             currentIngredient.setAttribute('class', 'card-tag-nomatch')
-//         }
-//         tagdiv.appendChild(currentIngredient)
-//     }
-//     let link = document.createElement('a')
-//     link.innerText = "See Full Recipe"
-//     cardBody.appendChild(link)
-//     link.setAttribute("href",  currentRecipe.url)
-//     link.setAttribute("target",  "_blank")
-//     card.appendChild(cardBody)
-// }
-
-// function createInHouseCard (item){
-//     const currentRecipe = item;
-
-//     let cardContainer = document.querySelector('.result-container')
-//     let card = document.createElement("div")
-//     card.setAttribute("class", "card card-style")
-//     cardContainer.appendChild(card)
-//     let img = document.createElement("img")
-//     img.setAttribute("class", "card-img-style")
-//     img.setAttribute("src", currentRecipe.imageURL)
-//     card.appendChild(img)
-//     let cardBody = document.createElement("div")
-//     cardBody.setAttribute("class", "card-body")
-    
-//     let recipeName = document.createElement("h5")
-//     recipeName.setAttribute("class", "card-title")
-//     recipeName.innerText = currentRecipe.title
-//     cardBody.appendChild(recipeName)
-//     let tagdiv = document.createElement('div');
-//     tagdiv.setAttribute('class', 'd-flex flex-row flex-wrap justify-content-evenly')
-//     cardBody.append(tagdiv)
-//     for (const ingredient of currentRecipe.ingredients){  
-//         let currentIngredient = document.createElement("p")
-//         currentIngredient.setAttribute("class", "card-text")
-//         currentIngredient.innerText = ingredient.toLowerCase()
-//         if(tagContains(currentIngredient)){
-//             currentIngredient.setAttribute('class', 'card-tag-match')
-//         }
-//         else{
-//             currentIngredient.setAttribute('class', 'card-tag-nomatch')
-//         }
-//         tagdiv.appendChild(currentIngredient)
-//     }
-//     let link = document.createElement('a')
-//     link.innerText = "See Full Recipe"
-//     cardBody.appendChild(link)
-//     link.setAttribute("href",  currentRecipe.recipeURL)
-//     link.setAttribute("target",  "_blank")
-
-//     let buttonDiv = document.createElement('div')
-//     let editbtn = document.createElement('button')
-//     editbtn.innerText = "Edit";
-//     let deleteBtn = document.createElement('button')
-//     deleteBtn.innerText = "Delete";
-//     buttonDiv.appendChild(editbtn);
-//     buttonDiv.appendChild(deleteBtn);
-//     cardBody.appendChild(buttonDiv);
-//     card.appendChild(cardBody)
-// }
 
 async function linkClicked(e) {
     clearResults();
     let hiddenButtons = document.querySelector(".hide")
     hiddenButtons.style.display = "flex"
     
-    fetch("/recipe/recipes")
+    fetch("/recipes")
         .then(res => res.json())
         .then(res => {
             res.data.forEach(element => {
@@ -316,8 +227,7 @@ function empty(element) {
 
 // const for modal buttons
 const addModalBtn = document.querySelector("#add-recipes")
-// const updateModalBtn =document.querySelector("#update-recipes")
-// const deleteModalBtn =document.querySelector("#delete-recipes")
+
 
 //modal event handlers
 addModalBtn.addEventListener("click", () => {
@@ -325,15 +235,7 @@ addModalBtn.addEventListener("click", () => {
     displayModal(addModal)
 })
 
-// updateModalBtn.addEventListener("click", () => {
-//     const updateModal = document.querySelector("#update-modal")
-//     displayModal(updateModal)
-// })
 
-// deleteModalBtn.addEventListener("click", ()=> {
-//     const deleteModal = document.querySelector("#delete-modal")
-//     displayModal(deleteModal)
-// })
 
 // function that takes care of displaying modal
 function displayModal(modal) {
@@ -350,7 +252,7 @@ function displayModal(modal) {
 addRecipe.addEventListener('submit', (req, res) => {
     req.preventDefault();
     let arr = addRecipe.elements[1].value.split(',');
-    fetch('/recipe', {
+    fetch('/', {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -362,64 +264,9 @@ addRecipe.addEventListener('submit', (req, res) => {
     })
 })
 
-/*
- showInHouse.eventlistener('click', (req,res)=>{
-     fetch('/recipe', {
-         method: 'get',
-     })
-     return the json we get into a variable and then pass that to the create card function
- })
-*/
 
 
 
 
 
-/*
-for (let i = 0; i < data.hits.length; i++) {
 
-                const currentRecipe = data.hits[i].recipe
-                let cardContainer = document.querySelector('.result-container')
-                let card = document.createElement("div")
-                card.setAttribute("class", "card card-style")
-                cardContainer.appendChild(card)
-
-                let img = document.createElement("img")
-                img.setAttribute("class", "card-img-style")
-                img.setAttribute("src", currentRecipe.image)
-                card.appendChild(img)
-
-                let cardBody = document.createElement("div")
-                cardBody.setAttribute("class", "card-body")
-                
-                let recipeName = document.createElement("h5")
-                recipeName.setAttribute("class", "card-title")
-                recipeName.innerText = currentRecipe.label
-                cardBody.appendChild(recipeName)
-
-                let tagdiv = document.createElement('div');
-                tagdiv.setAttribute('class', 'd-flex flex-row flex-wrap justify-content-evenly')
-                cardBody.append(tagdiv)
-
-                for (const ingredient of currentRecipe.ingredients){  
-                    let currentIngredient = document.createElement("p")
-                    currentIngredient.setAttribute("class", "card-text")
-                    currentIngredient.innerText = ingredient.food.toLowerCase()
-                    if(tagContains(currentIngredient)){
-                        currentIngredient.setAttribute('class', 'card-tag-match')
-                    }
-                    else{
-                        currentIngredient.setAttribute('class', 'card-tag-nomatch')
-                    }
-                    tagdiv.appendChild(currentIngredient)
-                }
-
-                let link = document.createElement('a')
-                link.innerText = "See Full Recipe"
-                cardBody.appendChild(link)
-                link.setAttribute("href",  currentRecipe.url)
-                link.setAttribute("target",  "_blank")
-                card.appendChild(cardBody)
-
-            }
-*/
