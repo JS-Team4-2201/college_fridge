@@ -140,6 +140,14 @@
     box-shadow: 0px 0px 78px 4px rgba(235, 76, 227, 0.73);
 }
 
+.in-house{
+    color: white;
+}
+
+.in-house a{
+    color: #d16ac0
+}
+
 #ingredient-list{
     margin-bottom: 20px;
 }
@@ -165,7 +173,7 @@
     position: fixed;
     z-index: 1;
     opacity: 0.6;
-    left: 1600px;
+    left: 0;
     top: 0;
 }
 
