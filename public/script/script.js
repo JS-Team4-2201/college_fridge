@@ -7,7 +7,7 @@ const submit = document.querySelector(".submit-btn")
 const clearTags = document.querySelector(".clear-btn")
 const tagContainer = document.querySelector(".tag-container")
 const recipesLink = document.querySelector('.in-house-link')
-let addRecipe = document.querySelector('#addRecipe')
+const addRecipe = document.querySelector('#addRecipe')
 
 // event handlers
 submit.addEventListener("click", onSubmitClick)
@@ -28,10 +28,13 @@ let submitClicked = false;
 pressEnter.onkeydown = (e) => {
     if (e.keyCode === 13) {
         e.preventDefault()
-        // console.log("submit")
         onAddClick()
     }
-};
+}
+
+function validInput(str){
+    return /^[\.a-zA-Z, ]*$/.test(str);
+}
 
 // function for add event 
 function onAddClick(){
@@ -52,25 +55,6 @@ function onAddClick(){
     resetField(document.querySelector("#ingredient-list-text")) 
 }
 
-function validInput(str){
-    return /^[\.a-zA-Z, ]*$/.test(str);
-}
-
-//  removing ingredient from 'Tags' section and array
-function removeIngredientFromTags(ingredient) {
-    let ingredients = tagArray
-    //tagArray = tagArray.filter(ingredient => ingredient !== ingredients)
-    console.log(ingredient.innerText)
-    for (let i = 0; i < tagArray.length; i++) {      // iterating thru array to find clicked ingredient
-        if (tagArray[i] === ingredient.innerText){
-            tagArray.splice(i, 1)                    // removing from array once found
-            tagContainer.removeChild(ingredient)     // removing from tagContainer
-            break;
-        }
-    }
-    console.log(tagArray);
-}
-
 // creating element for tag, rendering ingredient elements to tagBox, tagContainer, and some style  
 function renderElements(tagBoxValue) {
     tagBoxValue.forEach(element => {
@@ -87,6 +71,20 @@ function renderElements(tagBoxValue) {
     
 }
 
+// removing ingredient from 'Tags' section and array
+function removeIngredientFromTags(ingredient) {
+    let ingredients = tagArray
+    //tagArray = tagArray.filter(ingredient => ingredient !== ingredients)
+    console.log(ingredient.innerText)
+    for (let i = 0; i < tagArray.length; i++) {      // iterating thru array to find clicked ingredient
+        if (tagArray[i] === ingredient.innerText){
+            tagArray.splice(i, 1)                    // removing from array once found
+            tagContainer.removeChild(ingredient)     // removing from tagContainer
+            break;
+        }
+    }
+    console.log(tagArray);
+}
 
 // function for submit event 
 async function onSubmitClick() {
@@ -171,11 +169,9 @@ function createCard(item, imageURL, ingredients, recipeURL){
     return(card);
 }
 
-
-
-async function linkClicked(e) {
+function linkClicked(e) {
     clearResults();
-    let hiddenButtons = document.querySelector(".hide")
+    const hiddenButtons = document.querySelector(".hide")
     hiddenButtons.style.display = "flex"
     
     fetch("/recipes")
@@ -196,7 +192,6 @@ async function linkClicked(e) {
                 cardContainer.appendChild(card)
             });
         })
-
 }
 
 function clearResults(){
@@ -251,13 +246,13 @@ function displayModal(modal) {
 
 addRecipe.addEventListener('submit', (req, res) => {
     req.preventDefault();
-    let arr = addRecipe.elements[1].value.split(',');
+    const ingredientsArray = addRecipe.elements[1].value.split(',');
     fetch('/', {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
             title: addRecipe.elements[0].value,
-            ingredients: arr,
+            ingredients: ingredientsArray,
             recipeUrl: addRecipe.elements[2].value,
             imageUrl: addRecipe[3].value
         })
