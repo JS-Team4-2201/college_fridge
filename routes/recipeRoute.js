@@ -13,9 +13,9 @@ router.get("/", async (req, res, next) => {
     }
 })
 
-router.get("/recipes", (req, res) => {
-    res.render("index.ejs", {recipes : results})
-})
+// router.get("/recipes", (req, res) => {
+//     res.render("index.ejs", {recipes : results})
+// })
 
 
 router.post("/", async (req, res) => {
