@@ -141,7 +141,7 @@
 }
 
 .card-style{
-    width: 40%;
+    width: 30%;
     margin-bottom: 1rem;
     max-height: 20%;
 }
@@ -218,6 +218,7 @@
     border-radius: 10%;
     border: 1px solid black;
     padding: 5px;
+    margin-right: 5px;
 }
 
 .card-tag-nomatch{
@@ -225,6 +226,14 @@
     border-radius: 10%;
     border: 1px solid black;
     padding: 5px;
+    margin-right: 5px;
+}
+
+.recipe-link{
+    /* position: absolute;
+    bottom: 7px; */
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .hide{
@@ -283,21 +292,14 @@
         background-size: 100%;
         background-color: rgb(44, 43, 43);
     }
-
-    .comp-div{
-        flex-direction: column;
-    }
-
     .card-style{
-        width: 40%;
-        margin: 0 1rem 2rem 1rem;
-        max-height: 20%;
+        width: 45%;
+        /* height: 40%; */
     }
 
-    #add-recipes {
+    #add-recipes{
         width: 70%;
     }
-
 }
 
 @media only screen and (max-width: 425px) {
