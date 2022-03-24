@@ -196,6 +196,15 @@
 
 }
 
+.searchBar{
+    display: flex;
+    flex-direction: column;
+}
+#searchTitle{
+    text-align: center;
+    color: wheat;
+}
+
 
 /* .form{
     margin: 20px
