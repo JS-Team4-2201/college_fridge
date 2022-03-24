@@ -140,7 +140,7 @@ function createCard(item, imageURL, ingredients, recipeURL){
     recipeName.innerText = item // gonna not work
     cardBody.appendChild(recipeName)
     let tagdiv = document.createElement('div');
-    tagdiv.setAttribute('class', 'd-flex flex-row flex-wrap justify-content-evenly')
+    tagdiv.setAttribute('class', 'd-flex flex-row flex-wrap')
     cardBody.append(tagdiv)
     for (const ingredient of ingredients){  
         let currentIngredient = document.createElement("p")
@@ -160,9 +160,12 @@ function createCard(item, imageURL, ingredients, recipeURL){
         }
         tagdiv.appendChild(currentIngredient)
     }
+    let recipeDiv = document.createElement('div')
     let link = document.createElement('a')
+    link.setAttribute('class', 'recipe-link')
     link.innerText = "See Full Recipe"
-    cardBody.appendChild(link)
+    recipeDiv.appendChild(link)
+    cardBody.appendChild(recipeDiv)
     link.setAttribute("href",  recipeURL)
     link.setAttribute("target",  "_blank")
     card.appendChild(cardBody)
@@ -172,8 +175,8 @@ function createCard(item, imageURL, ingredients, recipeURL){
 function linkClicked(e) {
     clearResults();
     const hiddenButtons = document.querySelector(".hide")
-    //hiddenButtons.style.display = "flex"
-    hiddenButtons.setAttribute('class', "d-flex flex-column")
+    hiddenButtons.style.display = "flex"
+    //hiddenButtons.setAttribute('class', "d-flex flex-column")
     
     fetch("/recipes")
         .then(res => res.json())
@@ -188,6 +191,7 @@ function linkClicked(e) {
                 deleteBtn.innerText = "Delete";
                 buttonDiv.appendChild(editbtn);
                 buttonDiv.appendChild(deleteBtn);
+                
                 card.appendChild(buttonDiv);
 
                 cardContainer.appendChild(card)
