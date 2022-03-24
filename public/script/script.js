@@ -19,7 +19,7 @@ let tagArray= []
 let query = ""
 
 // quick fix for the submit doc that appears after you submit/ subject to change
-let submitClicked = 0;
+let submitClicked = false;
 
 // to handle user input with Enter key
 pressEnter.onkeydown = (e) => {
@@ -88,7 +88,6 @@ function renderElements(tagBoxValue) {
 // function for submit event 
 async function onSubmitClick() {
     clearResults();
-    submitClicked++;
 
     if(tagArray.length === 0){
         submitClicked = false;
@@ -149,7 +148,7 @@ async function onSubmitClick() {
         })
         .catch(err => console.error(err))
 
-        if (submitClicked===1) {
+        if (submitClicked===false) {
             let more = document.createElement('p')
             more.innerText = "Not what you're looking for?"
             let recipes = document.createElement('a')
@@ -160,6 +159,7 @@ async function onSubmitClick() {
 
             let recipesLink = document.querySelector('.recipes-link')
             recipesLink.addEventListener("click", linkClicked)
+            submitClicked = true;
         }
 }
 
@@ -232,13 +232,13 @@ function displayModal(modal) {
 
 addRecipe.addEventListener('submit', (req, res) => {
     req.preventDefault();
-    // console.log(addRecipe)
+    // console.log('clicked')
     let arr = addRecipe.elements[1].value.split(',');
     // console.log(addRecipe.elements[0].value);
     // console.log(arr);
     // console.log(addRecipe.elements[2].value);
     // console.log( addRecipe[3].value)
-    fetch('/recipes', {
+    fetch('/recipe', {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -248,8 +248,5 @@ addRecipe.addEventListener('submit', (req, res) => {
             imageUrl: addRecipe[3].value
         })
     })
-    // .then(res => {
-    //     if (res.ok) return res.json()
-    // })
-    //window.location.reload(true);
 })
+
