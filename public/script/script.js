@@ -42,10 +42,8 @@ function onAddClick(){
     const tagBoxValue = tagBox.elements[0].value
 
     if(validInput(tagBoxValue) && tagBoxValue.length > 0) {
-        console.log(validInput(tagBoxValue))
         let tempTagArray = tagBoxValue.split(',')
         tagArray = tagArray.concat(tempTagArray);
-        console.log("tagArray: " + tagArray)
         
         renderElements(tempTagArray) 
     } else {
@@ -67,7 +65,6 @@ function renderElements(tagBoxValue) {
         tagContainer.appendChild(tag)
         
     });
-    console.log(tagArray)
     
 }
 
@@ -124,10 +121,15 @@ async function onSubmitClick() {
         }
 }
 
-function createCard(item, imageURL, ingredients, recipeURL){
+function createCard(item, imageURL, ingredients, recipeURL, id){
     
     let card = document.createElement("div")
     card.setAttribute("class", "card card-style")
+
+    if(id){
+        card.setAttribute("id", id)
+    }
+
     let img = document.createElement("img")
     img.setAttribute("class", "card-img-style")
     img.setAttribute("src", imageURL)
@@ -140,7 +142,7 @@ function createCard(item, imageURL, ingredients, recipeURL){
     recipeName.innerText = item // gonna not work
     cardBody.appendChild(recipeName)
     let tagdiv = document.createElement('div');
-    tagdiv.setAttribute('class', 'd-flex flex-row flex-wrap justify-content-evenly')
+    tagdiv.setAttribute('class', 'tags d-flex flex-row flex-wrap justify-content-evenly')
     cardBody.append(tagdiv)
     for (const ingredient of ingredients){  
         let currentIngredient = document.createElement("p")
@@ -165,6 +167,7 @@ function createCard(item, imageURL, ingredients, recipeURL){
     cardBody.appendChild(link)
     link.setAttribute("href",  recipeURL)
     link.setAttribute("target",  "_blank")
+    link.setAttribute("class", "recipe-link")
     card.appendChild(cardBody)
     return(card);
 }
@@ -178,21 +181,26 @@ function linkClicked(e) {
         .then(res => res.json())
         .then(res => {
             res.data.forEach(element => {
-                let card = createCard(element.title, element.imageURL, element.ingredients, element.recipeURL)
-
-                let buttonDiv = document.createElement('div')
-                let editbtn = document.createElement('button')
-                editbtn.innerText = "Edit";
-                let deleteBtn = document.createElement('button')
+                const card = createCard(element.title, element.imageUrl, element.ingredients, element.recipeUrl, element._id)
+                const buttonDiv = document.createElement('div')
+                const editBtn = document.createElement('button')
+                editBtn.innerText = "Edit"
+                editBtn.setAttribute("id", "edit")
+                const deleteBtn = document.createElement('button')
                 deleteBtn.innerText = "Delete";
-                buttonDiv.appendChild(editbtn);
+                deleteBtn.setAttribute("id", "delete")
+                buttonDiv.appendChild(editBtn);
                 buttonDiv.appendChild(deleteBtn);
                 card.appendChild(buttonDiv);
 
                 cardContainer.appendChild(card)
+                
+                const edit = document.querySelector("#edit")
+                edit.addEventListener("click", onEditClicked)
             });
         })
 }
+
 
 function clearResults(){
     document.getElementById("results-container").innerHTML = "";
@@ -211,6 +219,12 @@ function onClearTagsClick() {
 
 function resetField(formField) {
    formField.value = ''
+}
+
+function resetForm(form) {
+    for(let i = 0; i < form.length; i++) {
+        form[i].value = ""
+    }
 }
 
 // clear tags from page
@@ -247,18 +261,90 @@ function displayModal(modal) {
 addRecipe.addEventListener('submit', (req, res) => {
     req.preventDefault();
     const ingredientsArray = addRecipe.elements[1].value.split(',');
-    fetch('/', {
-        method: 'post',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-            title: addRecipe.elements[0].value,
-            ingredients: ingredientsArray,
-            recipeUrl: addRecipe.elements[2].value,
-            imageUrl: addRecipe[3].value
+
+    if (addRecipe.elements[4].value !== "") {
+        fetch('/', {
+            method: 'put',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                title: addRecipe.elements[0].value,
+                ingredients: ingredientsArray,
+                recipeUrl: addRecipe.elements[2].value,
+                imageUrl: addRecipe[3].value
+            })
         })
-    })
+        .then(res => {
+            Toastify({
+                text: "You've successfully updated your fridge content!!",
+                className: "info",
+                duration: 2000,
+                style: {
+                  background: "linear-gradient(to right, rgb(71, 84, 207), #eb08c5)",
+                }
+              }).showToast();
+        })
+        .catch(err => {
+            Toastify({
+                text: "Oops! Something went wrong!",
+                className: "info",
+                duration: 2000,
+                style: {
+                  background: "linear-gradient(to right, yellow, red)",
+                }
+              }).showToast();
+        })
+        
+
+    } else {
+        fetch('/', {
+            method: 'post',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                title: addRecipe.elements[0].value,
+                ingredients: ingredientsArray,
+                recipeUrl: addRecipe.elements[2].value,
+                imageUrl: addRecipe[3].value
+            })
+        })
+        .then(res => {
+            Toastify({
+                text: "You've successfully stocked the fridge!!",
+                className: "info",
+                duration: 2000,
+                style: {
+                  background: "linear-gradient(to right, rgb(71, 84, 207), #eb08c5)",
+                }
+              }).showToast();
+        })
+        .catch(err => {
+            Toastify({
+                text: "Oops! Something went wrong!",
+                className: "info",
+                duration: 2000,
+                style: {
+                  background: "linear-gradient(to right, yellow, red)",
+                }
+              }).showToast();
+        })
+    }
+   resetForm(addRecipe)
 })
 
+function onEditClicked(e) {
+    const addModal = document.querySelector("#add-modal")
+    displayModal(addModal)
+
+    const card = e.target.parentElement.parentElement
+    const cardTags  = document.querySelector(".tags")
+
+    addRecipe.elements[0].value = card.querySelector(".card-title").innerText
+    for(let i =0; i < cardTags.children.length; i++) {
+        addRecipe.elements[1].value +=  `${cardTags.children[i].innerText}, ` 
+    }
+    addRecipe.elements[2].value = card.querySelector(".recipe-link").getAttribute("href")
+    addRecipe.elements[3].value = card.querySelector(".card-img-style").getAttribute("src")
+    addRecipe.elements[4].value = card.getAttribute("id")
+}
 
 
 
