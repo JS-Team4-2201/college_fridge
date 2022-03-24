@@ -16,8 +16,8 @@
 </head>
 <body class="bg">
     <!-- <span id="open-nav" onclick="openNav()">&#9776; Menu</span> -->
-    <header class="header container box-border">
-        <img id="logo" src="sf-images/logo.gif" alt="">
+    <header class="container box-border">
+        <img id="logo" src="sf-images/newlogo.gif" alt="">
     </header>
 
     <!-- sidenav -->
@@ -44,19 +44,19 @@
     <!-- body container and formats the space (contains the form and the results)-->
     <div class="container-lg">
         <!-- comp-div (complete div) that contains the form and the results -->
-        <div class="comp-div d-flex box-border">
+        <div class="comp-div d-flex box-border1">
             <!-- spaced the form portion to take 3 of the 12 grid spaces -->
-            <section class="div-container box-border col-md-3">
+            <section class="div-container1 box-border2 col-md-3">
                 <label class="label-text" for="ingredient">Ingredients</label>
                 <form id="ingredient-list" class="d-flex justify-content-evenly">
-                    <input id="ingredient-list-text" type="text" placeholder="Enter a ingredient">
+                    <input id="ingredient-list-text" type="text" placeholder="Enter an ingredient">
                     <button type="button" class="add-btn btn btn-success">Add</button>
                 </form>
-                <div class="box-border">
+                <div class="box-border3">
                     <label class="label-text" for="tags">Tags</label>
                     <div class="tag-container d-flex justify-content-evenly flex-wrap flex-row"></div>
                 </div>
-                <div class="button-container box-border">
+                <div class="button-container box-border4">
                     <button type="button" class="submit-btn btn-fill btn btn-success">Submit</button> 
                     <button type="button" class="btn-fill clear-btn btn btn-primary">Clear Tags</button>
                 </div>
@@ -66,7 +66,7 @@
             <section class="col-md-1"></section>
 
             <!-- results section -->
-            <section class="div-container col-md-8">
+            <section class="div-container2 box-border2 col-md-8">
                 <label id="result-label" class="label-text" for="results">Results</label>
 
                 <!-- add recipe modal button -->
@@ -102,7 +102,7 @@
                           </button>
                         </div>
                         <div class="modal-body">
-                          <form id="addRecipe" >
+                          <form action="/recipes" method="POST">
                             <div class="form-group">
                               <label for="recipe-name" class="col-form-label">Recipe Name:</label>
                               <input type="text" class="form-control" name="title">
@@ -119,10 +119,10 @@
                                 <label for="link-to-recipes" class="col-form-label">Photo of Recipe:</label>
                                 <input class="form-control" name="imageUrl"></input>
                             </div>
-                            <div class="modal-footer">
-                              <button type="submit" class="btn btn-primary">Submit</button>
-                            </div>
                           </form>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
                       </div>
                     </div>
@@ -135,7 +135,7 @@
                       <form action="/recipes" method="PUT">
                         <input type="text" placeholder="Recipe name" name="title">
                         <input type="text" placeholder="Ingredients" name="ingredients">
-                        <input type="text" placeholder="Link to recipes (if avaiable)" name="recipeUrl">
+                        <input type="text" placeholder="Link to recipes (if available)" name="recipeUrl">
                         <input type="text" placeholder="Photo of recipe" name="imageUrl">
                         <button type="submit">Submit</button>
                       </form>
@@ -157,7 +157,7 @@
                   
 
                 
-                <div id="results-container" class="result-container d-flex flex-wrap justify-content-evenly"></div>
+                <div class="result-container d-flex flex-wrap justify-content-evenly"></div>
             </section>
         </div>
     </div>
@@ -173,5 +173,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <!-- Internal js -->
     <script  type="module" src="script/script.js"></script>
+
 </body>
 </html>
