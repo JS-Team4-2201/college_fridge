@@ -19,6 +19,7 @@ recipesLink.addEventListener("click", linkClicked)
 // use to handle tags and query value for edamam
 let tagArray= []
 let query = ""
+let cardContainer = document.querySelector('.result-container')
 
 // quick fix for the submit doc that appears after you submit/ subject to change
 let submitClicked = false;
@@ -100,50 +101,10 @@ async function onSubmitClick() {
             console.log(data)
 
             for (let i = 0; i < data.hits.length; i++) {
-
-                const currentRecipe = data.hits[i].recipe
-                let cardContainer = document.querySelector('.result-container')
-                let card = document.createElement("div")
-                card.setAttribute("class", "card card-style")
-                cardContainer.appendChild(card)
-
-                let img = document.createElement("img")
-                img.setAttribute("class", "card-img-style")
-                img.setAttribute("src", currentRecipe.image)
-                card.appendChild(img)
-
-                let cardBody = document.createElement("div")
-                cardBody.setAttribute("class", "card-body")
+                let currentCard = data.hits[i].recipe;
                 
-                let recipeName = document.createElement("h5")
-                recipeName.setAttribute("class", "card-title")
-                recipeName.innerText = currentRecipe.label
-                cardBody.appendChild(recipeName)
-
-                let tagdiv = document.createElement('div');
-                tagdiv.setAttribute('class', 'd-flex flex-row flex-wrap justify-content-evenly')
-                cardBody.append(tagdiv)
-
-                for (const ingredient of currentRecipe.ingredients){  
-                    let currentIngredient = document.createElement("p")
-                    currentIngredient.setAttribute("class", "card-text")
-                    currentIngredient.innerText = ingredient.food.toLowerCase()
-                    if(tagContains(currentIngredient)){
-                        currentIngredient.setAttribute('class', 'card-tag-match')
-                    }
-                    else{
-                        currentIngredient.setAttribute('class', 'card-tag-nomatch')
-                    }
-                    tagdiv.appendChild(currentIngredient)
-                }
-
-                let link = document.createElement('a')
-                link.innerText = "See Full Recipe"
-                cardBody.appendChild(link)
-                link.setAttribute("href",  currentRecipe.url)
-                link.setAttribute("target",  "_blank")
-                card.appendChild(cardBody)
-
+                let card = createCard(currentCard.label, currentCard.image, currentCard.ingredients, currentCard.url)
+                cardContainer.appendChild(card)
             }
         })
         .catch(err => console.error(err))
@@ -163,6 +124,51 @@ async function onSubmitClick() {
         }
 }
 
+function createCard(item, imageURL, ingredients, recipeURL){
+    
+    let card = document.createElement("div")
+    card.setAttribute("class", "card card-style")
+    let img = document.createElement("img")
+    img.setAttribute("class", "card-img-style")
+    img.setAttribute("src", imageURL)
+    card.appendChild(img)
+    let cardBody = document.createElement("div")
+    cardBody.setAttribute("class", "card-body")
+    
+    let recipeName = document.createElement("h5")
+    recipeName.setAttribute("class", "card-title")
+    recipeName.innerText = item // gonna not work
+    cardBody.appendChild(recipeName)
+    let tagdiv = document.createElement('div');
+    tagdiv.setAttribute('class', 'd-flex flex-row flex-wrap justify-content-evenly')
+    cardBody.append(tagdiv)
+    for (const ingredient of ingredients){  
+        let currentIngredient = document.createElement("p")
+        currentIngredient.setAttribute("class", "card-text")
+        if(ingredient.food){
+            currentIngredient.innerText = ingredient.food.toLowerCase();
+        }
+        else{
+            currentIngredient.innerText = ingredient
+        }
+        //currentIngredient.innerText = ingredient.food // gonna break for inhouse
+        if(tagContains(currentIngredient)){
+            currentIngredient.setAttribute('class', 'card-tag-match')
+        }
+        else{
+            currentIngredient.setAttribute('class', 'card-tag-nomatch')
+        }
+        tagdiv.appendChild(currentIngredient)
+    }
+    let link = document.createElement('a')
+    link.innerText = "See Full Recipe"
+    cardBody.appendChild(link)
+    link.setAttribute("href",  recipeURL)
+    link.setAttribute("target",  "_blank")
+    card.appendChild(cardBody)
+    return(card);
+}
+
 function linkClicked(e) {
     clearResults();
     const hiddenButtons = document.querySelector(".hide")
@@ -170,8 +176,22 @@ function linkClicked(e) {
     
     fetch("/recipes")
         .then(res => res.json())
-        .then(res => console.log(res))
+        .then(res => {
+            res.data.forEach(element => {
+                let card = createCard(element.title, element.imageURL, element.ingredients, element.recipeURL)
 
+                let buttonDiv = document.createElement('div')
+                let editbtn = document.createElement('button')
+                editbtn.innerText = "Edit";
+                let deleteBtn = document.createElement('button')
+                deleteBtn.innerText = "Delete";
+                buttonDiv.appendChild(editbtn);
+                buttonDiv.appendChild(deleteBtn);
+                card.appendChild(buttonDiv);
+
+                cardContainer.appendChild(card)
+            });
+        })
 }
 
 function clearResults(){
@@ -203,11 +223,13 @@ function empty(element) {
 // const for modal buttons
 const addModalBtn = document.querySelector("#add-recipes")
 
+
 //modal event handlers
 addModalBtn.addEventListener("click", () => {
     const addModal = document.querySelector("#add-modal")
     displayModal(addModal)
 })
+
 
 
 // function that takes care of displaying modal
@@ -236,4 +258,10 @@ addRecipe.addEventListener('submit', (req, res) => {
         })
     })
 })
+
+
+
+
+
+
 
