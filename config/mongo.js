@@ -2,7 +2,7 @@ const mongoose = require("mongoose")
 // allow access to .env 
 require('dotenv').config({path: './config/.env'})
 
-// connect to DB
+// connect to Database
 const startMongoServer = async () => {
     try {
         await mongoose.connect(process.env.CONN_STRING, {
