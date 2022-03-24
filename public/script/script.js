@@ -236,12 +236,8 @@ function displayModal(modal) {
 
 addRecipe.addEventListener('submit', (req, res) => {
     req.preventDefault();
-    // console.log(addRecipe)
     let arr = addRecipe.elements[1].value.split(',');
-    // console.log(addRecipe.elements[0].value);
-    // console.log(arr);
-    // console.log(addRecipe.elements[2].value);
-    // console.log( addRecipe[3].value)
+
     fetch('/recipes', {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
@@ -252,8 +248,4 @@ addRecipe.addEventListener('submit', (req, res) => {
             imageUrl: addRecipe[3].value
         })
     })
-    // .then(res => {
-    //     if (res.ok) return res.json()
-    // })
-    //window.location.reload(true);
 })
