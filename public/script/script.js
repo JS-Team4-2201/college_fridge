@@ -73,10 +73,7 @@ function renderElements(tagBoxValue) {
     tagBoxValue.forEach(element => {
         let tag = document.createElement("p")
         tag.innerText = element;
-        tag.style.backgroundColor = "yellow"    // styling (colors background of box containing ingredient)
-        tag.style.borderRadius = "10%"          // styling (changes style of box around ingredient to add soft edges)
-        tag.style.padding = "3px"               // styling (adds padding between edge of word and background box)
-    
+        tag.setAttribute("class", "card-tag-match")
         tag.style.cursor = "pointer"   // adds a change of cursor to pointer when hovering over ingredients
         tag.onclick = () => removeIngredientFromTags(tag) // calls function to remove ingredient once clicked
     
@@ -131,7 +128,7 @@ async function onSubmitClick() {
                 for (const ingredient of currentRecipe.ingredients){  
                     let currentIngredient = document.createElement("p")
                     currentIngredient.setAttribute("class", "card-text")
-                    currentIngredient.innerText = ingredient.food
+                    currentIngredient.innerText = ingredient.food.toLowerCase()
                     if(tagContains(currentIngredient)){
                         currentIngredient.setAttribute('class', 'card-tag-match')
                     }
