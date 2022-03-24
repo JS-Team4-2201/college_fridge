@@ -141,8 +141,9 @@
 }
 
 .card-style{
-    width: 40%;
-    margin-bottom: 15px;
+    width: 30%;
+    margin-bottom: 1rem;
+    max-height: 20%;
 }
 
 .in-house{
@@ -195,6 +196,15 @@
 
 }
 
+.searchBar{
+    display: flex;
+    flex-direction: column;
+}
+#searchTitle{
+    text-align: center;
+    color: wheat;
+}
+
 
 /* .form{
     margin: 20px
@@ -208,6 +218,7 @@
     border-radius: 10%;
     border: 1px solid black;
     padding: 5px;
+    margin-right: 5px;
 }
 
 .card-tag-nomatch{
@@ -215,6 +226,14 @@
     border-radius: 10%;
     border: 1px solid black;
     padding: 5px;
+    margin-right: 5px;
+}
+
+.recipe-link{
+    /* position: absolute;
+    bottom: 7px; */
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .hide{
@@ -267,6 +286,22 @@
     color: white;
 }
 
+@media only screen and (max-width: 768px) {
+    .bg{
+        background-repeat: repeat-n;
+        background-size: 100%;
+        background-color: rgb(44, 43, 43);
+    }
+    .card-style{
+        width: 45%;
+        /* height: 40%; */
+    }
+
+    #add-recipes{
+        width: 70%;
+    }
+}
+
 @media only screen and (max-width: 425px) {
     .bg{
         background-repeat: repeat-n;
@@ -275,6 +310,16 @@
     }
     .comp-div{
         flex-direction: column;
+    }
+
+    .card-style{
+        width: 100%;
+        margin: 0 1rem 2rem 1rem;
+        max-height: 20%;
+    }
+
+    #add-recipes {
+        width: 70%;
     }
 
 }

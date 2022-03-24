@@ -142,7 +142,9 @@ function createCard(item, imageURL, ingredients, recipeURL, id){
     recipeName.innerText = item // gonna not work
     cardBody.appendChild(recipeName)
     let tagdiv = document.createElement('div');
+
     tagdiv.setAttribute('class', 'tags d-flex flex-row flex-wrap justify-content-evenly')
+
     cardBody.append(tagdiv)
     for (const ingredient of ingredients){  
         let currentIngredient = document.createElement("p")
@@ -162,9 +164,12 @@ function createCard(item, imageURL, ingredients, recipeURL, id){
         }
         tagdiv.appendChild(currentIngredient)
     }
+    let recipeDiv = document.createElement('div')
     let link = document.createElement('a')
+    link.setAttribute('class', 'recipe-link')
     link.innerText = "See Full Recipe"
-    cardBody.appendChild(link)
+    recipeDiv.appendChild(link)
+    cardBody.appendChild(recipeDiv)
     link.setAttribute("href",  recipeURL)
     link.setAttribute("target",  "_blank")
     link.setAttribute("class", "recipe-link")
@@ -176,6 +181,7 @@ function linkClicked(e) {
     clearResults();
     const hiddenButtons = document.querySelector(".hide")
     hiddenButtons.style.display = "flex"
+    //hiddenButtons.setAttribute('class', "d-flex flex-column")
     
     fetch("/recipes")
         .then(res => res.json())
@@ -191,6 +197,7 @@ function linkClicked(e) {
                 deleteBtn.setAttribute("id", "delete")
                 buttonDiv.appendChild(editBtn);
                 buttonDiv.appendChild(deleteBtn);
+                
                 card.appendChild(buttonDiv);
 
                 cardContainer.appendChild(card)
@@ -206,15 +213,23 @@ function clearResults(){
     document.getElementById("results-container").innerHTML = "";
 }
 
+// breaks down the ingredient by spaces and sees if our the ingredient is apart of our tags that we provided
 function tagContains(currentIngredient){
-    console.log(tagArray.some(element => element === currentIngredient.innerText));
-    return tagArray.some(element => element === currentIngredient.innerText)
+    let checkArr = currentIngredient.innerText.split(" ");
+    console.log(tagArray)
+    for (let i = 0; i < checkArr.length; i++) {
+        if(tagArray.includes(checkArr[i])){
+            return true;
+        }
+    }
+    return false;
 }
 
 function onClearTagsClick() {
     empty(tagContainer)
     tagArray = []
 }
+
 
 
 function resetField(formField) {
@@ -330,6 +345,7 @@ addRecipe.addEventListener('submit', (req, res) => {
    resetForm(addRecipe)
 })
 
+
 function onEditClicked(e) {
     const addModal = document.querySelector("#add-modal")
     displayModal(addModal)
@@ -345,6 +361,7 @@ function onEditClicked(e) {
     addRecipe.elements[3].value = card.querySelector(".card-img-style").getAttribute("src")
     addRecipe.elements[4].value = card.getAttribute("id")
 }
+
 
 
 
