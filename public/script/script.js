@@ -6,12 +6,14 @@ const pressEnter = document.querySelector("input")
 const submit = document.querySelector(".submit-btn")
 const clearTags = document.querySelector(".clear-btn")
 const tagContainer = document.querySelector(".tag-container")
+const recipesLink = document.querySelector('.in-house-link')
 let addRecipe = document.querySelector('#addRecipe')
 
 // event handlers
 submit.addEventListener("click", onSubmitClick)
 add.addEventListener("click", onAddClick)
 clearTags.addEventListener("click", onClearTagsClick)
+recipesLink,addEventListener("click", linkClicked)
 
 
 // use to handle tags and query value for edamam
@@ -149,15 +151,15 @@ async function onSubmitClick() {
         .catch(err => console.error(err))
 
         if (submitClicked===false) {
-            let more = document.createElement('p')
-            more.innerText = "Not what you're looking for?"
-            let recipes = document.createElement('a')
-            recipes.setAttribute("class", "recipes-link")
-            recipes.innerText = "Try our in house recipes!"
-            document.querySelector('.button-container').appendChild(more)
-            document.querySelector('.button-container').appendChild(recipes)
+            const inHouseText = document.querySelector(".in-house")
+            inHouseText.innerText = "Not what you're looking for?"
+            const recipes = document.createElement("a")
+            recipes.setAttribute("class", "in-house-link")
+            recipes.innerText = " Click here!"
+            inHouseText.appendChild(recipes)
+           
 
-            let recipesLink = document.querySelector('.recipes-link')
+            const recipesLink = document.querySelector('.in-house-link')
             recipesLink.addEventListener("click", linkClicked)
             submitClicked = true;
         }
@@ -167,7 +169,10 @@ async function linkClicked(e) {
     clearResults();
     let hiddenButtons = document.querySelector(".hide")
     hiddenButtons.style.display = "flex"
-
+    
+    fetch("/recipe/recipes")
+        .then(res => res.json())
+        .then(res => console.log(res))
 
 }
 
@@ -232,12 +237,7 @@ function displayModal(modal) {
 
 addRecipe.addEventListener('submit', (req, res) => {
     req.preventDefault();
-    // console.log('clicked')
     let arr = addRecipe.elements[1].value.split(',');
-    // console.log(addRecipe.elements[0].value);
-    // console.log(arr);
-    // console.log(addRecipe.elements[2].value);
-    // console.log( addRecipe[3].value)
     fetch('/recipe', {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
