@@ -13,6 +13,15 @@ router.get("/", async (req, res, next) => {
     }
 })
 
+router.get("/recipes", async (req, res, next) => {
+    try{
+        const getRecipes = await recipes.find()
+        //res.render("index")
+        res.status(200).json({success: true, data: getRecipes})
+    } catch {
+        res.status(404).json({success: false, data: failMessage})
+    }
+})
 
 router.post("/", async (req, res) => {
     try{
