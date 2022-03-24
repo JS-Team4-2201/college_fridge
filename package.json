@@ -25,7 +25,8 @@
     "express-openid-connect": "^2.7.1",
     "mongodb": "^4.4.1",
     "mongoose": "^6.2.8",
-    "server": "^1.0.37"
+    "server": "^1.0.37",
+    "toastify-js": "^1.11.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"
