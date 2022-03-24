@@ -66,7 +66,7 @@ function renderElements(tagBoxValue) {
     tag.style.borderRadius = "10%"          // styling (changes style of box around ingredient to add soft edges)
     tag.style.padding = "3px"               // styling (adds padding between edge of word and background box)
     tagContainer.appendChild(tag)
-    tagArray.push(tagBoxValue)
+    // tagArray.push(tagBoxValue)
     console.log(tagArray)
     
     tag.style.cursor = "pointer"   // adds a change of cursor to pointer when hovering over ingredients

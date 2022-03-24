@@ -1,45 +1,140 @@
-.bg{
+#logo {
+    width: 100%;
+    border:5px solid #3597e7;
+    border-radius: 16px;
+    margin-top: 25px;
+    animation: border-flicker 5s linear infinite;
+}
+
+@keyframes border-flicker {
+    0% {
+        opacity:0.1;
+        -webkit-box-shadow: 0px 0px 78px 3px rgba(16,134,232,0.73);
+        -moz-box-shadow: 0px 0px 78px 4px rgba(16,134,232,0.73);
+        box-shadow: 0px 0px 78px 4px rgba(16,134,232,0.73);
+    }
+    2% {
+        opacity:1;
+        -webkit-box-shadow: 0px 0px 78px 3px rgba(16,134,232,0.75);
+        -moz-box-shadow: 0px 0px 78px 4px rgba(16,134,232,0.75);
+        box-shadow: 0px 0px 78px 4px rgba(16,134,232,0.75);
+    }
+    4% {
+        opacity:0.5;
+        -webkit-box-shadow: 0px 0px 78px 3px rgba(16,134,232,0.75);
+        -moz-box-shadow: 0px 0px 78px 4px rgba(16,134,232,0.75);
+        box-shadow: 0px 0px 78px 4px rgba(16,134,232,0.75);
+    }
+    
+    8% {
+        opacity:1;
+        -webkit-box-shadow: 0px 0px 78px 3px rgba(16,134,232,0.75);
+        -moz-box-shadow: 0px 0px 78px 4px rgba(16,134,232,0.75);
+        box-shadow: 0px 0px 78px 4px rgba(16,134,232,0.75);
+    }
+    70% {
+        opacity:0.7;
+        -webkit-box-shadow: 0px 0px 78px 3px rgba(16,134,232,0.75);
+        -moz-box-shadow: 0px 0px 78px 4px rgba(16,134,232,0.75);
+        box-shadow: 0px 0px 78px 4px rgba(16,134,232,0.75);
+    }
+    100% {
+        opacity:1;
+        -webkit-box-shadow: 0px 0px 78px 3px rgba(16,134,232,0.75);
+        -moz-box-shadow: 0px 0px 78px 4px rgba(16,134,232,0.75);
+        box-shadow: 0px 0px 78px 4px rgba(16,134,232,0.75);
+    }
+}
+
+.bg {
     background-image: url(../sf-images/fridge.jpg);
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: 100% 100%;
 }
 
-.header{
-    margin-top: 20px;
+.header {
+    margin-top: 1800px;
     margin-bottom: 50px;
-    background: rgb(151, 151, 151, .75);
+    background: rgb(93, 110, 185, .75);
     text-align: center;
     font-size: 5rem;
     font-family: 'Monoton', cursive;
 }
 
-.label-text{
+.label-text {
     color: black;
     width: 100%;
     font-size: 2rem;
     text-align: center;
 }
 
-#result-label{
+#result-label {
     margin-bottom: 10px;
 }
 
-.btn_container{
+.btn_container {
     width: 30%
 }
 
-.btn-fill{
+.btn-fill {
     width: 100%;
 }
 
-.box-border{
-    border: 1px solid black;
-
+.btn-success {
+    color: #111;
+    text-shadow: 1px 1px 1px #d16ac0;
+    background-color: #ecccec;
 }
 
-.div-container{
-    background: rgb(151, 151, 151, .65);
+.btn-success:hover {
+    background-color: #d16ac0;
+    text-shadow: 1px 1px 1px #211dec;
+}
+
+.btn-primary {
+    color: #111;
+    text-shadow: 1px 1px 1px #211dec;
+    background-color: #59a3e0;
+    margin-top: 3px;
+}
+.btn-primary:hover {
+    text-shadow: 1px 1px 1px #d16ac0;
+    background-color: #211dec;
+}
+
+/*
+ .box-border1 { 
+    border: 5px solid green; 
+    not currently used <-- if you uncoment this .box-border1, you'll see the green highlight around the box
+} 
+*/
+
+.box-border2 {
+    border: 1px solid rgb(160, 161, 160);
+    border-radius: 8px;
+    margin-top: 50px;
+    padding: 5px;
+}
+
+.box-border3 {
+    border-top-style: 1px solid rgb(0, 0, 0);
+    /* border-radius: 1%; */
+}
+
+.box-border4 {
+    border: 1px solid rgba(75, 8, 245, 0);
+    border-radius: 1%;
+}
+
+.div-container1 {
+    background: rgba(140, 157, 189, 0.65);
+    height: 450px;
+    box-shadow: 0px 0px 78px 4px rgba(235, 76, 227,0.73);
+}
+.div-container2 {
+    background: rgba(140, 157, 189, 0.65);
+    box-shadow: 0px 0px 78px 4px rgba(235, 76, 227, 0.73);
 }
 
 #ingredient-list{
@@ -47,10 +142,6 @@
 }
 #ingredient-list-text{
     width: 80%;
-}
-
-#logo{
-    width: 100%;
 }
 
 /* .modal {
@@ -133,10 +224,11 @@
     color: white;
 }
 
-@media only screen and (max-width: 425px){
+@media only screen and (max-width: 425px) {
     .bg{
-        background-repeat: repeat-y;
+        background-repeat: repeat-n;
         background-size: 100%;
+        background-color: rgb(44, 43, 43);
     }
     .comp-div{
         flex-direction: column;
