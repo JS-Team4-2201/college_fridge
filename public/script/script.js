@@ -172,7 +172,8 @@ function createCard(item, imageURL, ingredients, recipeURL){
 function linkClicked(e) {
     clearResults();
     const hiddenButtons = document.querySelector(".hide")
-    hiddenButtons.style.display = "flex"
+    //hiddenButtons.style.display = "flex"
+    hiddenButtons.setAttribute('class', "d-flex flex-column")
     
     fetch("/recipes")
         .then(res => res.json())
@@ -198,15 +199,23 @@ function clearResults(){
     document.getElementById("results-container").innerHTML = "";
 }
 
+// breaks down the ingredient by spaces and sees if our the ingredient is apart of our tags that we provided
 function tagContains(currentIngredient){
-    console.log(tagArray.some(element => element === currentIngredient.innerText));
-    return tagArray.some(element => element === currentIngredient.innerText)
+    let checkArr = currentIngredient.innerText.split(" ");
+    console.log(tagArray)
+    for (let i = 0; i < checkArr.length; i++) {
+        if(tagArray.includes(checkArr[i])){
+            return true;
+        }
+    }
+    return false;
 }
 
 function onClearTagsClick() {
     empty(tagContainer)
     tagArray = []
 }
+
 
 
 function resetField(formField) {
@@ -259,7 +268,11 @@ addRecipe.addEventListener('submit', (req, res) => {
     })
 })
 
+// document.getElementById("#searchBar").addEventListener('keypress', (e) => {
+//     if(e.key === 'Enter'){
 
+//     }
+// })
 
 
 
