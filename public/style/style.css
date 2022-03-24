@@ -148,10 +148,14 @@
 
 .in-house{
     color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .in-house-link{
-    color: #d16ac0
+    color: #cf36b6
+    
 }
 
 #ingredient-list{
