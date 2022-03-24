@@ -200,6 +200,15 @@
 
 }
 
+.modal-title {
+    color: rgb(16, 134, 232);
+    width: 100%;
+    font-size: 1.5rem;
+    text-align: center;
+    text-shadow: 10px 2px 10px #eb08c5;
+    -webkit-text-stroke: 1px rgb(110, 120, 209)
+}
+
 .searchBar{
     display: flex;
     flex-direction: column;
@@ -300,6 +309,7 @@
         width: 45%;
         /* height: 40%; */
     }
+
 
     #add-recipes{
         width: 70%;
