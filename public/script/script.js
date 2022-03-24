@@ -170,7 +170,7 @@ async function linkClicked(e) {
     let hiddenButtons = document.querySelector(".hide")
     hiddenButtons.style.display = "flex"
     
-    fetch("/recipe/recipes")
+    fetch("/recipes")
         .then(res => res.json())
         .then(res => console.log(res))
 
@@ -204,8 +204,6 @@ function empty(element) {
 
 // const for modal buttons
 const addModalBtn = document.querySelector("#add-recipes")
-const updateModalBtn =document.querySelector("#update-recipes")
-const deleteModalBtn =document.querySelector("#delete-recipes")
 
 //modal event handlers
 addModalBtn.addEventListener("click", () => {
@@ -213,15 +211,6 @@ addModalBtn.addEventListener("click", () => {
     displayModal(addModal)
 })
 
-updateModalBtn.addEventListener("click", () => {
-    const updateModal = document.querySelector("#update-modal")
-    displayModal(updateModal)
-})
-
-deleteModalBtn.addEventListener("click", ()=> {
-    const deleteModal = document.querySelector("#delete-modal")
-    displayModal(deleteModal)
-})
 
 // function that takes care of displaying modal
 function displayModal(modal) {
@@ -238,7 +227,7 @@ function displayModal(modal) {
 addRecipe.addEventListener('submit', (req, res) => {
     req.preventDefault();
     let arr = addRecipe.elements[1].value.split(',');
-    fetch('/recipe', {
+    fetch('/', {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
