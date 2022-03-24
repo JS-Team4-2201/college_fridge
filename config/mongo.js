@@ -9,7 +9,7 @@ const startMongoServer = async () => {
             useNewUrlParser: true,
             useUnifiedTopology: true
         });
-        console.log("Connected to Database!")
+        console.log("You hungry?  ...the fridge is open!")
     }
     catch (e) {
         console.log(e)
