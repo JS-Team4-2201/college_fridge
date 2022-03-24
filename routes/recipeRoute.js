@@ -6,16 +6,12 @@ const failMessage = "Request Failed - no data available"
 router.get("/", async (req, res, next) => {
     try{
         const getRecipes = await recipes.find()
-        res.render("index.ejs")
+        res.render("index")
         // res.status(200).json({success: true, data: getRecipes})
     } catch {
         res.status(404).json({success: false, data: failMessage})
     }
 })
-
-// router.get("/recipes", (req, res) => {
-//     res.render("index.ejs", {recipes : results})
-// })
 
 
 router.post("/", async (req, res) => {
@@ -52,7 +48,7 @@ router.delete("/", async (req, res) => {
         const deleteRecipe = await recipes.findOneAndDelete(
             {title : req.body.title}
         )
-        res.status(200).json({success: false, data: deleteRecipe})
+        res.status(200).json({success: true, data: deleteRecipe})
     } 
     catch {
         res.status(404).json({success: false, data: failMessage})
