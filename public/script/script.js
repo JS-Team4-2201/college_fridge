@@ -139,11 +139,11 @@ function createCard(item, imageURL, ingredients, recipeURL, id){
     
     let recipeName = document.createElement("h5")
     recipeName.setAttribute("class", "card-title")
-    recipeName.innerText = item // gonna not work
+    recipeName.innerText = item
     cardBody.appendChild(recipeName)
     let tagdiv = document.createElement('div');
 
-    tagdiv.setAttribute('class', 'tags d-flex flex-row flex-wrap justify-content-evenly')
+    tagdiv.setAttribute('class', 'tags d-flex flex-row flex-wrap')
 
     cardBody.append(tagdiv)
     for (const ingredient of ingredients){  
@@ -195,9 +195,25 @@ function linkClicked(e) {
                 const deleteBtn = document.createElement('button')
                 deleteBtn.innerText = "Delete";
                 deleteBtn.setAttribute("id", "delete")
+
+                deleteBtn.addEventListener('click', (req,res) =>{
+                    let nameToDelete = card.children[1].children[0].innerText;
+                    fetch('/', {
+                        method: 'delete',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                          title: nameToDelete
+                        })
+                      })
+                    .then(res => {
+                        if(res.ok) console.log('success')
+                        linkClicked()
+                    })
+                })
+
                 buttonDiv.appendChild(editBtn);
                 buttonDiv.appendChild(deleteBtn);
-                
+
                 card.appendChild(buttonDiv);
 
                 cardContainer.appendChild(card)
@@ -216,7 +232,7 @@ function clearResults(){
 // breaks down the ingredient by spaces and sees if our the ingredient is apart of our tags that we provided
 function tagContains(currentIngredient){
     let checkArr = currentIngredient.innerText.split(" ");
-    console.log(tagArray)
+    //console.log(tagArray)
     for (let i = 0; i < checkArr.length; i++) {
         if(tagArray.includes(checkArr[i])){
             return true;

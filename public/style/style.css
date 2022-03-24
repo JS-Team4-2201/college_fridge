@@ -151,6 +151,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+
 }
 
 .in-house-link{
@@ -296,6 +297,11 @@
         background-size: 100%;
         background-color: rgb(44, 43, 43);
     }
+
+    .in-house {
+        font-size: 12px;
+    }
+        
     .card-style{
         width: 45%;
         /* height: 40%; */
@@ -315,6 +321,9 @@
     .comp-div{
         flex-direction: column;
     }
+    .in-house{
+        font-size: 20px;
+    }
 
     .card-style{
         width: 100%;
@@ -325,5 +334,4 @@
     #add-recipes {
         width: 70%;
     }
-
 }
