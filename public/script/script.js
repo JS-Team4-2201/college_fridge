@@ -53,6 +53,9 @@ function onAddClick(){
     if(validInput(tagBoxValue) && tagBoxValue.length > 0) {
         let tempTagArray = tagBoxValue.split(',')
         tagArray = tagArray.concat(tempTagArray);
+
+        tagArray = tagArray.map(str => str.trim());
+
         renderElements(tempTagArray) 
     } else {
         const message = "Uh-oh! You forgot your tags 😅"
@@ -286,6 +289,7 @@ function addOrUpdate(e) {
     }
     addModal.style.display = "none"
     linkClicked()
+    resetForm(addRecipe)
 }
 
 
