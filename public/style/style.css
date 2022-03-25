@@ -1,3 +1,31 @@
+:root {
+    --cerise: #cf36b6;
+    --solid-blue: rgba(16,134,232,0.73);
+    --solid-blue-off: rgba(16,134,232,0.75);
+    --light-blue: #3597e7;
+    --indigo: rgb(71, 84, 207);
+    --pale-blue: rgb(93, 110, 185, .75);
+    --mademoiselle: #eb08c5;
+    --magenta: #d16ac0;
+    --true-blue: #211dec;
+    --bubble-gum: #ecccec;
+    --malibu-blue: #59a3e0;
+    --twilight: #e9d5e9;
+    --white: white;
+    --black: black;
+    --harmony: rgb(160, 161, 160);
+    --grey-black: rgb(44, 43, 43);
+    --fushsia: rgba(235, 76, 227, 0.73);
+    --lightgray: lightgray;
+    --concrete: rgba(140, 157, 189, 0.1);
+    --wheat: wheat;
+    --navy: rgb(16, 134, 232);
+    --satin: rgb(110, 120, 209);
+    --yellow: yellow;
+    --red: red;
+    --slate: rgba(75, 8, 245, 0);
+}
+
 .bg {
     background-image: url(../sf-images/fridge.jpg);
     background-repeat: no-repeat;
@@ -7,7 +35,7 @@
 
 #logo {
     width: 100%;
-    border:5px solid #3597e7;
+    border:5px solid var(--light-blue);
     border-radius: 16px;
     margin-top: 25px;
     animation: border-flicker 5s linear infinite;
@@ -16,40 +44,40 @@
 @keyframes border-flicker {
     0% {
         opacity:0.1;
-        -webkit-box-shadow: 0px 0px 78px 3px rgba(16,134,232,0.73);
-        -moz-box-shadow: 0px 0px 78px 4px rgba(16,134,232,0.73);
-        box-shadow: 0px 0px 78px 4px rgba(16,134,232,0.73);
+        -webkit-box-shadow: 0px 0px 78px 3px var(--solid-blue);
+        -moz-box-shadow: 0px 0px 78px 4px var(--solid-blue);
+        box-shadow: 0px 0px 78px 4px var(--solid-blue);
     }
     2% {
         opacity:1;
-        -webkit-box-shadow: 0px 0px 78px 3px rgba(16,134,232,0.75);
-        -moz-box-shadow: 0px 0px 78px 4px rgba(16,134,232,0.75);
-        box-shadow: 0px 0px 78px 4px rgba(16,134,232,0.75);
+        -webkit-box-shadow: 0px 0px 78px 3px var(--solid-blue-off);
+        -moz-box-shadow: 0px 0px 78px 4px var(--solid-blue-off);
+        box-shadow: 0px 0px 78px 4px var(--solid-blue-off);
     }
     4% {
         opacity:0.5;
-        -webkit-box-shadow: 0px 0px 78px 3px rgba(16,134,232,0.75);
-        -moz-box-shadow: 0px 0px 78px 4px rgba(16,134,232,0.75);
-        box-shadow: 0px 0px 78px 4px rgba(16,134,232,0.75);
+        -webkit-box-shadow: 0px 0px 78px 3px var(--solid-blue-off);
+        -moz-box-shadow: 0px 0px 78px 4px var(--solid-blue-off);
+        box-shadow: 0px 0px 78px 4px var(--solid-blue-off);
     }
     
     8% {
         opacity:1;
-        -webkit-box-shadow: 0px 0px 78px 3px rgba(16,134,232,0.75);
-        -moz-box-shadow: 0px 0px 78px 4px rgba(16,134,232,0.75);
-        box-shadow: 0px 0px 78px 4px rgba(16,134,232,0.75);
+        -webkit-box-shadow: 0px 0px 78px 3px var(--solid-blue-off);
+        -moz-box-shadow: 0px 0px 78px 4px var(--solid-blue-off);
+        box-shadow: 0px 0px 78px 4px var(--solid-blue-off);
     }
     70% {
         opacity:0.7;
-        -webkit-box-shadow: 0px 0px 78px 3px rgba(16,134,232,0.75);
-        -moz-box-shadow: 0px 0px 78px 4px rgba(16,134,232,0.75);
-        box-shadow: 0px 0px 78px 4px rgba(16,134,232,0.75);
+        -webkit-box-shadow: 0px 0px 78px 3px var(--solid-blue-off);
+        -moz-box-shadow: 0px 0px 78px 4px var(--solid-blue-off);
+        box-shadow: 0px 0px 78px 4px var(--solid-blue-off);
     }
     100% {
         opacity:1;
-        -webkit-box-shadow: 0px 0px 78px 3px rgba(16,134,232,0.75);
-        -moz-box-shadow: 0px 0px 78px 4px rgba(16,134,232,0.75);
-        box-shadow: 0px 0px 78px 4px rgba(16,134,232,0.75);
+        -webkit-box-shadow: 0px 0px 78px 3px var(--solid-blue-off);
+        -moz-box-shadow: 0px 0px 78px 4px var(--solid-blue-off);
+        box-shadow: 0px 0px 78px 4px var(--solid-blue-off);
     }
 }
 
@@ -57,19 +85,19 @@
 .header {
     margin-top: 1800px;
     margin-bottom: 50px;
-    background: rgb(93, 110, 185, .75);
+    background: var(--pale-blue);
     text-align: center;
     font-size: 5rem;
     font-family: 'Monoton', cursive;
 }
 
 .label-text {
-    color: white;
+    color: var(--white);
     width: 100%;
     font-size: 2rem;
     text-align: center;
-    text-shadow: 10px 2px 10px #eb08c5;
-    -webkit-text-stroke: 1px rgb(71, 84, 207)
+    text-shadow: 10px 2px 10px var(--mademoiselle);
+    -webkit-text-stroke: 1px var(--indigo)
 }
 
 #result-label {
@@ -87,10 +115,10 @@
 }
 
 .card-btn{
-    border: 1px solid black;
+    border: 1px solid var(--black);
     width: 40%;
     margin-bottom: 10px;
-    color: white
+    color: var(--white)
 }
 
 .recipe-link {
@@ -98,19 +126,21 @@
     bottom: 0;
     margin-top: 5px;
     margin-bottom: 5px;
+    color: var(--cerise)
 }
 
 .card[id] .recipe-link{
     position: absolute;
-    bottom: 45px
+    bottom: 45px;
+    color: var(--cerise)
 }
 
 .edit-btn {
-    background: linear-gradient(to right, #3597e7, #eb08c5);
+    background: linear-gradient(to right, var(--light-blue), var(--mademoiselle));
 }
 
 .delete-btn {
-    background: linear-gradient(to right, yellow, red);
+    background: linear-gradient(to right, var(--yellow), var(--red));
 }
 
 .btn-fill {
@@ -118,52 +148,52 @@
 }
 
 .btn-success {
-    color: #111;
-    text-shadow: 1px 1px 1px #d16ac0;
-    background-color: #ecccec;
+    color: var(--black);
+    text-shadow: 1px 1px 1px var(--magenta);
+    background-color: var(--bubble-gum);
 }
 
 .btn-success:hover {
-    background-color: #d16ac0;
-    text-shadow: 1px 1px 1px #211dec;
+    background-color: var(--magenta);
+    text-shadow: 1px 1px 1px var(--true-blue);
 }
 
 .btn-primary {
-    color: #111;
-    text-shadow: 1px 1px 1px #211dec;
-    background-color: #59a3e0;
+    color: var(--black);
+    text-shadow: 1px 1px 1px var(--true-blue);
+    background-color: var(--malibu-blue);
     margin-top: 3px;
 }
 .btn-primary:hover {
-    text-shadow: 1px 1px 1px #d16ac0;
-    background-color: #211dec;
+    text-shadow: 1px 1px 1px var(--magenta);
+    background-color: var(--true-blue);
 }
 
 
 .box-border2 {
-    border: 1px solid rgb(160, 161, 160);
+    border: 1px solid var(--harmony);
     border-radius: 8px;
     margin-top: 50px;
     padding: 5px;
 }
 
 .box-border3 {
-    border-top-style: 1px solid rgb(0, 0, 0);
+    border-top-style: 1px solid var(--black);
 }
 
 .box-border4 {
-    border: 1px solid rgba(75, 8, 245, 0);
+    border: 1px solid var(--slate);
     border-radius: 1%;
 }
 
 .div-container1 {
-    background: rgba(140, 157, 189, 0.1);
+    background: var(--concrete);
     height: 450px;
-    box-shadow: 0px 0px 78px 4px rgba(235, 76, 227,0.73);
+    box-shadow: 0px 0px 78px 4px var(--fushsia);
 }
 .div-container2 {
-    background: rgba(140, 157, 189, 0.1);
-    box-shadow: 0px 0px 78px 4px rgba(235, 76, 227, 0.73);
+    background: var(--concrete);
+    box-shadow: 0px 0px 78px 4px var(--fushsia);
 }
 
 .card-style{
@@ -173,16 +203,14 @@
 }
 
 .in-house{
-    color: white;
+    color: var(--white);
     display: flex;
     flex-direction: column;
     align-items: center;
-
 }
 
 .in-house-link{
-    color: #cf36b6
-    
+    color: var(--cerise)
 }
 
 #ingredient-list{
@@ -205,21 +233,20 @@
     display: flex;
     align-items: center;
     min-height: calc(100% - 0rem);
-    box-shadow: 0px 0px 78px 4px rgba(16,134,232,0.75);
+    box-shadow: 0px 0px 78px 4px var(--solid-blue-off)
 }
 
 .modal-content {
-    background-color: #e9d5e9;
-
+    background-color: var(--twilight);
 }
 
 .modal-title {
-    color: rgb(16, 134, 232);
+    color: var(--navy);
     width: 100%;
     font-size: 1.5rem;
     text-align: center;
-    text-shadow: 10px 2px 10px #eb08c5;
-    -webkit-text-stroke: 1px rgb(110, 120, 209)
+    text-shadow: 10px 2px 10px var(--mademoiselle);
+    -webkit-text-stroke: 1px var(--satin)
 }
 
 .searchBar{
@@ -228,22 +255,22 @@
 }
 #searchTitle{
     text-align: center;
-    color: wheat;
+    color: var(--wheat);
 }
 
 
 .card-tag-match{
-    background-color: #ecccec;
+    background-color: var(--bubble-gum);
     border-radius: 10%;
-    border: 1px solid black;
+    border: 1px solid var(--black);
     padding: 5px;
     margin-right: 5px;
 }
 
 .card-tag-nomatch{
-    background-color: lightgray;
+    background-color: var(--lightgray);
     border-radius: 10%;
-    border: 1px solid black;
+    border: 1px solid var(--black);
     padding: 5px;
     margin-right: 5px;
 }
@@ -262,7 +289,7 @@
     .bg{
         background-repeat: repeat-n;
         background-size: 100%;
-        background-color: rgb(44, 43, 43);
+        background-color: var(--grey-black);
     }
 
     .in-house {
@@ -283,7 +310,7 @@
     .bg{
         background-repeat: repeat-n;
         background-size: 100%;
-        background-color: rgb(44, 43, 43);
+        background-color: var(--grey-black);
     }
     .comp-div{
         flex-direction: column;
