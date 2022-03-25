@@ -56,7 +56,7 @@ function onAddClick(){
     if(validInput(tagBoxValue) && tagBoxValue.length > 0) {
         let tempTagArray = tagBoxValue.split(',')
         tagArray = tagArray.concat(tempTagArray);
-        
+        tagArray = tagArray.map(str => str.trim());
         renderElements(tempTagArray) 
     } else {
         //split the value into a temp array to then concat with the original
@@ -314,6 +314,7 @@ function addOrUpdate(e) {
     }
     addModal.style.display = "none"
     linkClicked()
+    resetForm(addRecipe)
 }
 
 
