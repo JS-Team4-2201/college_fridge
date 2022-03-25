@@ -1,6 +1,6 @@
 import { getRecipes } from "../third-party-API/edamamAPI.js"
 import { getRecipesFromDB, addRecipeToDB, updateRecipeInDB, deleteRecipeFromDB} from "./fetch.js"
-import { clearResults, resetField, resetForm, empty, displayModal, dbFeedback } from "./cleanup.js"
+import { clearResults, resetField, resetForm, empty, validInput, displayModal, tagContains, feedback } from "./cleanup.js"
 
 // reused const variables for event or element location functionality
 const add = document.querySelector(".add-btn")
@@ -44,23 +44,19 @@ pressEnter.onkeydown = (e) => {
     }
 }
 
-function validInput(str){
-    return /^[\.a-zA-Z, ]*$/.test(str);
-}
-
 // function for add event 
 function onAddClick(){
     const tagBox = document.querySelector("#ingredient-list")
     const tagBoxValue = tagBox.elements[0].value
 
+    // if entered ingredient matched the regex requirement we jump in
     if(validInput(tagBoxValue) && tagBoxValue.length > 0) {
         let tempTagArray = tagBoxValue.split(',')
         tagArray = tagArray.concat(tempTagArray);
-        
         renderElements(tempTagArray) 
     } else {
-        //split the value into a temp array to then concat with the original
-        alert("Not a valid ingredient, please try again.")
+        const message = "Uh-oh! You forgot your tags 😅"
+        feedback(message, errorColor)
     }
     resetField(document.querySelector("#ingredient-list-text")) 
 }
@@ -74,17 +70,13 @@ function renderElements(tagBoxValue) {
         tag.style.cursor = "pointer"   // adds a change of cursor to pointer when hovering over ingredients
         tag.onclick = () => removeIngredientFromTags(tag) // calls function to remove ingredient once clicked
     
-        tagContainer.appendChild(tag)
-        
+        tagContainer.appendChild(tag)  
     });
-    
 }
 
 // removing ingredient from 'Tags' section and array
 function removeIngredientFromTags(ingredient) {
-    let ingredients = tagArray
-    //tagArray = tagArray.filter(ingredient => ingredient !== ingredients)
-    console.log(ingredient.innerText)
+    
     for (let i = 0; i < tagArray.length; i++) {      // iterating thru array to find clicked ingredient
         if (tagArray[i] === ingredient.innerText){
             tagArray.splice(i, 1)                    // removing from array once found
@@ -92,26 +84,25 @@ function removeIngredientFromTags(ingredient) {
             break;
         }
     }
-    console.log(tagArray);
 }
 
 // function for submit event 
 async function onSubmitClick() {
-    clearResults();
 
+    clearResults();
     if(tagArray.length === 0){
         submitClicked = false;
         return;
     }
     query = tagArray.join()
-    // call to edamam api
+    
+    // call to edamam api with query
     getRecipes(query)
         .then(data => {
             console.log(data)
 
             for (let i = 0; i < data.hits.length; i++) {
                 let currentCard = data.hits[i].recipe;
-                
                 let card = createCard(currentCard.label, currentCard.image, currentCard.ingredients, currentCard.url)
                 cardContainer.appendChild(card)
             }
@@ -125,19 +116,17 @@ async function onSubmitClick() {
             recipes.setAttribute("class", "in-house-link")
             recipes.innerText = " Click here!"
             inHouseText.appendChild(recipes)
-           
-
+        
             const recipesLink = document.querySelector('.in-house-link')
             recipesLink.addEventListener("click", linkClicked)
             submitClicked = true;
         }
-
         const addModal = document.querySelector("#add-modal")
         addModal.style.display = "none"
 }
 
+// function to create our card, both with edamam and OUR api information
 function createCard(item, imageURL, ingredients, recipeURL, id) {
-    
     let card = document.createElement("div")
     card.setAttribute("class", "card card-style")
 
@@ -170,8 +159,8 @@ function createCard(item, imageURL, ingredients, recipeURL, id) {
         else{
             currentIngredient.innerText = ingredient
         }
-        //currentIngredient.innerText = ingredient.food // gonna break for inhouse
-        if(tagContains(currentIngredient)){
+      
+        if(tagContains(tagArray, currentIngredient)){
             currentIngredient.setAttribute('class', 'card-tag-match')
         }
         else{
@@ -195,8 +184,7 @@ function linkClicked(e) {
     clearResults();
     const hiddenButtons = document.querySelector(".hide")
     hiddenButtons.style.display = "flex"
-    //hiddenButtons.setAttribute('class', "d-flex flex-column")
-    
+
     getRecipesFromDB()
         .then(res => {
             res.data.forEach(element => {
@@ -210,11 +198,10 @@ function linkClicked(e) {
                             
                 deleteBtn.innerText = "Delete"
                 deleteBtn.setAttribute("class", "btn delete-btn card-btn")
-                                         buttonDiv.appendChild(editBtn);
+                
+                buttonDiv.appendChild(editBtn);
                 buttonDiv.appendChild(deleteBtn);
-
                 card.appendChild(buttonDiv);
-
                 cardContainer.appendChild(card) 
 
                 editBtn.addEventListener("click", onEditClicked)
@@ -225,31 +212,16 @@ function linkClicked(e) {
 }
 
 
-// breaks down the ingredient by spaces and sees if our the ingredient is apart of our tags that we provided
-function tagContains(currentIngredient){
-    let checkArr = currentIngredient.innerText.split(" ");
-    //console.log(tagArray)
-    for (let i = 0; i < checkArr.length; i++) {
-        if(tagArray.includes(checkArr[i])){
-            return true;
-        }
-    }
-    return false;
-}
-
 function onClearTagsClick() {
     empty(tagContainer)
     tagArray = []
 }
 
-//modal event handlers
+//modal event handlers. delegates to displayModal which controls its visibility
 addModalBtn.addEventListener("click", () => {
     const addModal = document.querySelector("#add-modal")
     displayModal(addModal)
 })
-
-
-// addRecipe.addEventListener('submit', addOrUpdate)
 
 
 function onEditClicked(e) {
@@ -279,11 +251,11 @@ function onDeleteClicked(e) {
 
     deleteRecipeFromDB(id)
         .then(() => {
-            dbFeedback(message, color)
+            feedback(message, color)
             linkClicked()
         })
         .catch(() => {
-            dbFeedback(message, color)
+            feedback(message, color)
         })
 }
 
@@ -296,20 +268,20 @@ function addOrUpdate(e) {
     if (id !== "") {
         updateRecipeInDB(id, addRecipe, ingredientsArray)
             .then(()=> {
-                dbFeedback(message, successColor)
+                feedback(message, successColor)
             })
             .catch(() => {
-                dbFeedback(errorMessage, errorColor)
+                feedback(errorMessage, errorColor)
             })
     }
     else {
         addRecipeToDB(addRecipe, ingredientsArray)
             .then(() => {
                 const message = "You've successfully stocked the fridge!!"
-                dbFeedback(message, successColor)
+                feedback(message, successColor)
             })
             .catch(() => {
-                dbFeedback(errorMessage, errorColor)
+                feedback(errorMessage, errorColor)
             })
     }
     addModal.style.display = "none"

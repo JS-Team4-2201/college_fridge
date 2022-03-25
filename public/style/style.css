@@ -95,7 +95,9 @@
 
 .recipe-link {
     position: absolute;
-    bottom: 0
+    bottom: 0;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .card[id] .recipe-link{
@@ -137,12 +139,6 @@
     background-color: #211dec;
 }
 
-/*
- .box-border1 { 
-    border: 5px solid green; 
-    not currently used <-- if you uncoment this .box-border1, you'll see the green highlight around the box
-} 
-*/
 
 .box-border2 {
     border: 1px solid rgb(160, 161, 160);
@@ -153,7 +149,6 @@
 
 .box-border3 {
     border-top-style: 1px solid rgb(0, 0, 0);
-    /* border-radius: 1%; */
 }
 
 .box-border4 {
@@ -197,21 +192,7 @@
     width: 80%;
 }
 
-/* .modal {
-    display: none; 
-    position: fixed; 
-    z-index: 1;
-    left: 1500px;
-    top: 100px;
-    width: 400px; 
-    height: 250px; 
-    opacity: 0.8;
-    background-color: rgb(0,0,0); 
-    background-color: rgba(0,0,0,0.4); 
-} */
-
 .modal-fade{
-    /* position: absolute; */
     justify-content: center;
     align-items: center;
     z-index: 1;
@@ -251,13 +232,6 @@
 }
 
 
-/* .form{
-    margin: 20px
-}
-
-.form-field{
-
-} */
 .card-tag-match{
     background-color: #ecccec;
     border-radius: 10%;
@@ -274,13 +248,6 @@
     margin-right: 5px;
 }
 
-.recipe-link{
-    /* position: absolute;
-    bottom: 7px; */
-    margin-top: 5px;
-    margin-bottom: 5px;
-}
-
 .hide{
     display: none;
     justify-content: space-evenly;
@@ -289,46 +256,6 @@
 
 .hide button{
     width: 30%
-}
-
-/* test */
-.sidenav {
-    height: 100%;
-    width: 0;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    background-color: #111;
-    overflow-x: hidden;
-    transition: 0.5s;
-    padding-top: 60px;
-}
-
-.sidenav a {
-    padding: 8px 8px 8px 8px;
-    text-decoration: none;
-    font-size: 25px;
-    color: #818181;
-    display: block;
-    transition: 0.3s;
-}
-
-.sidenav .closebtn {
-    position: absolute;
-    top: 0;
-    right: 25px;
-    font-size: 36px;
-    margin-left: 50px;
-}
-
-#open-nav{
-    margin-left: 20px;
-    position: fixed;
-    font-size:30px;
-    cursor:pointer;
-    z-index: 1;
-    color: white;
 }
 
 @media only screen and (max-width: 768px) {
@@ -344,7 +271,6 @@
         
     .card-style{
         width: 45%;
-        /* height: 40%; */
     }
 
 
