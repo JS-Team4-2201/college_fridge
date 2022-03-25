@@ -1,7 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const recipes = require("../model/Recipe")
-const failMessage = "Request Failed - no data available"
+const failMessage = "Request Failed - check data and try again"
 
 router.get("/", async (req, res, next) => {
     try{
@@ -33,7 +33,7 @@ router.post("/", async (req, res) => {
 router.put("/", async (req, res) => {
     try{
         const update = await recipes.findOneAndUpdate(
-            {title: req.body.title},
+            {_id: req.body._id},
             {
                 $set: {
                         title: req.body.title,
@@ -53,7 +53,7 @@ router.put("/", async (req, res) => {
 router.delete("/", async (req, res) => {
     try{
         const deleteRecipe = await recipes.findOneAndDelete(
-            {title : req.body.title}
+            {_id : req.body._id}
         )
         res.status(200).json({success: true, data: deleteRecipe})
     } 

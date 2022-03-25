@@ -1,6 +1,8 @@
 import { getRecipes } from "../third-party-API/edamamAPI.js"
+import { getRecipesFromDB, addRecipeToDB, updateRecipeInDB, deleteRecipeFromDB} from "./fetch.js"
+import { clearResults, resetField, resetForm, empty, displayModal, dbFeedback } from "./cleanup.js"
 
-// const variables for needed event handlers
+// reused const variables for event or element location functionality
 const add = document.querySelector(".add-btn")
 const pressEnter = document.querySelector("input")  
 const submit = document.querySelector(".submit-btn")
@@ -8,18 +10,28 @@ const clearTags = document.querySelector(".clear-btn")
 const tagContainer = document.querySelector(".tag-container")
 const recipesLink = document.querySelector('.in-house-link')
 const addRecipe = document.querySelector('#addRecipe')
+const cardContainer = document.querySelector('.result-container')
+const addModal = document.querySelector("#add-modal")
+const addModalBtn = document.querySelector("#add-recipes")
+
+// general reused application const variables
+const errorColor = "linear-gradient(to right, red, orange)"
+const errorMessage="Oops! Something went wrong!"
+const successColor = "linear-gradient(to right, rgb(71, 84, 207), #eb08c5)"
+
 
 // event handlers
-submit.addEventListener("click", onSubmitClick)
-add.addEventListener("click", onAddClick)
-clearTags.addEventListener("click", onClearTagsClick)
-recipesLink.addEventListener("click", linkClicked)
+submit.addEventListener("click", onSubmitClick)         // submit btn used to hit edmamam API
+add.addEventListener("click", onAddClick)               // add tags to container
+clearTags.addEventListener("click", onClearTagsClick)   //  clears tags from container
+recipesLink.addEventListener("click", linkClicked)      // touchs OUR API to return card from db info
+addRecipe.addEventListener('submit', addOrUpdate)       // determines whether to add or update info to db
 
 
 // use to handle tags and query value for edamam
 let tagArray= []
 let query = ""
-let cardContainer = document.querySelector('.result-container')
+
 
 // quick fix for the submit doc that appears after you submit/ subject to change
 let submitClicked = false;
@@ -124,7 +136,7 @@ async function onSubmitClick() {
         addModal.style.display = "none"
 }
 
-function createCard(item, imageURL, ingredients, recipeURL, id){
+function createCard(item, imageURL, ingredients, recipeURL, id) {
     
     let card = document.createElement("div")
     card.setAttribute("class", "card card-style")
@@ -175,7 +187,6 @@ function createCard(item, imageURL, ingredients, recipeURL, id){
     cardBody.appendChild(recipeDiv)
     link.setAttribute("href",  recipeURL)
     link.setAttribute("target",  "_blank")
-    link.setAttribute("class", "recipe-link")
     card.appendChild(cardBody)
     return(card);
 }
@@ -186,8 +197,7 @@ function linkClicked(e) {
     hiddenButtons.style.display = "flex"
     //hiddenButtons.setAttribute('class', "d-flex flex-column")
     
-    fetch("/recipes")
-        .then(res => res.json())
+    getRecipesFromDB()
         .then(res => {
             res.data.forEach(element => {
                 const card = createCard(element.title, element.imageUrl, element.ingredients, element.recipeUrl, element._id)
@@ -197,42 +207,23 @@ function linkClicked(e) {
                 editBtn.setAttribute("class", "btn edit-btn card-btn")
                 editBtn.innerText = "Edit"
                 const deleteBtn = document.createElement('button')
-                
+                            
                 deleteBtn.innerText = "Delete"
                 deleteBtn.setAttribute("class", "btn delete-btn card-btn")
-
-                deleteBtn.addEventListener('click', (req,res) =>{
-                    let nameToDelete = card.children[1].children[0].innerText;
-                    fetch('/', {
-                        method: 'delete',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                          title: nameToDelete
-                        })
-                      })
-                    .then(res => {
-                        if(res.ok) console.log('success')
-                        linkClicked()
-                    })
-                })
-
-                buttonDiv.appendChild(editBtn);
+                                         buttonDiv.appendChild(editBtn);
                 buttonDiv.appendChild(deleteBtn);
 
                 card.appendChild(buttonDiv);
 
-                cardContainer.appendChild(card)
-                
-                
+                cardContainer.appendChild(card) 
+
                 editBtn.addEventListener("click", onEditClicked)
-            });
+                deleteBtn.addEventListener('click', onDeleteClicked)
         })
+    })
+  
 }
 
-
-function clearResults(){
-    document.getElementById("results-container").innerHTML = "";
-}
 
 // breaks down the ingredient by spaces and sees if our the ingredient is apart of our tags that we provided
 function tagContains(currentIngredient){
@@ -251,29 +242,6 @@ function onClearTagsClick() {
     tagArray = []
 }
 
-
-
-function resetField(formField) {
-   formField.value = ''
-}
-
-function resetForm(form) {
-    for(let i = 0; i < form.length; i++) {
-        form[i].value = ""
-    }
-}
-
-// clear tags from page
-function empty(element) {
-    while(element.firstElementChild) {
-        element.firstElementChild.remove();
-     }
-}
-
-// const for modal buttons
-const addModalBtn = document.querySelector("#add-recipes")
-
-
 //modal event handlers
 addModalBtn.addEventListener("click", () => {
     const addModal = document.querySelector("#add-modal")
@@ -281,111 +249,72 @@ addModalBtn.addEventListener("click", () => {
 })
 
 
-
-// function that takes care of displaying modal
-function displayModal(modal) {
-    modal.style.display = "block"
-    modal.setAttribute("class", "show")
-
-    const close = document.querySelector(".close")
-    close.addEventListener("click", () => {
-        resetForm(addRecipe)
-        modal.style.display = "none"
-    })
-}
-
-
-addRecipe.addEventListener('submit', (req, res) => {
-    req.preventDefault();
-    const ingredientsArray = addRecipe.elements[1].value.split(',');
-
-    if (addRecipe.elements[4].value !== "") {
-        fetch('/', {
-            method: 'put',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                title: addRecipe.elements[0].value,
-                ingredients: ingredientsArray,
-                recipeUrl: addRecipe.elements[2].value,
-                imageUrl: addRecipe[3].value
-            })
-        })
-        .then(res => {
-            Toastify({
-                text: "You've successfully updated your fridge content!!",
-                className: "info",
-                duration: 2000,
-                style: {
-                  background: "linear-gradient(to right, rgb(71, 84, 207), #eb08c5)",
-                }
-              }).showToast();
-        })
-        .catch(err => {
-            Toastify({
-                text: "Oops! Something went wrong!",
-                className: "info",
-                duration: 2000,
-                style: {
-                  background: "linear-gradient(to right, yellow, red)",
-                }
-              }).showToast();
-        })
-        
-
-    } else {
-        fetch('/', {
-            method: 'post',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                title: addRecipe.elements[0].value,
-                ingredients: ingredientsArray,
-                recipeUrl: addRecipe.elements[2].value,
-                imageUrl: addRecipe[3].value
-            })
-        })
-        .then(res => {
-            Toastify({
-                text: "You've successfully stocked the fridge!!",
-                className: "info",
-                duration: 2000,
-                style: {
-                  background: "linear-gradient(to right, rgb(71, 84, 207), #eb08c5)",
-                }
-              }).showToast();
-        })
-        .catch(err => {
-            Toastify({
-                text: "Oops! Something went wrong!",
-                className: "info",
-                duration: 2000,
-                style: {
-                  background: "linear-gradient(to right, yellow, red)",
-                }
-              }).showToast();
-        })
-    }
-   resetForm(addRecipe)
-})
+// addRecipe.addEventListener('submit', addOrUpdate)
 
 
 function onEditClicked(e) {
     const addModal = document.querySelector("#add-modal")
     displayModal(addModal)
+    resetForm(addRecipe)
 
     const card = e.target.parentElement.parentElement
-    const cardTags  = document.querySelector(".tags")
-
+    const cardTags  = document.getElementById(e.path[2].id)
+    const children = cardTags.children[1].children[1].children
+    
     addRecipe.elements[0].value = card.querySelector(".card-title").innerText
-    for(let i =0; i < cardTags.children.length; i++) {
-        addRecipe.elements[1].value +=  `${cardTags.children[i].innerText}, ` 
+    for (let i = 0; i < children.length; i++) {
+        addRecipe.elements[1].value += `${children[i].innerText},`
     }
+  
     addRecipe.elements[2].value = card.querySelector(".recipe-link").getAttribute("href")
     addRecipe.elements[3].value = card.querySelector(".card-img-style").getAttribute("src")
     addRecipe.elements[4].value = card.getAttribute("id")
 }
 
+function onDeleteClicked(e) {
+    const id = e.path[2].id
+    const recipeName = document.getElementById(e.path[2].id).children[1].children[0].innerText
+    const message = `Smells like the ${recipeName} sat in the fridge a little too long`
+    const color = "linear-gradient(to right, rgb(71, 84, 207), #eb08c5)"
 
+    deleteRecipeFromDB(id)
+        .then(() => {
+            dbFeedback(message, color)
+            linkClicked()
+        })
+        .catch(() => {
+            dbFeedback(message, color)
+        })
+}
 
+function addOrUpdate(e) {
+    e.preventDefault();
+    const ingredientsArray = addRecipe.elements[1].value.split(',');
+    const id = addRecipe.elements[4].value
+    const message = "You've successfully updated your fridge content!!"
+
+    if (id !== "") {
+        updateRecipeInDB(id, addRecipe, ingredientsArray)
+            .then(()=> {
+                dbFeedback(message, successColor)
+            })
+            .catch(() => {
+                dbFeedback(errorMessage, errorColor)
+            })
+    }
+    else {
+        addRecipeToDB(addRecipe, ingredientsArray)
+            .then(() => {
+                const message = "You've successfully stocked the fridge!!"
+                dbFeedback(message, successColor)
+            })
+            .catch(() => {
+                dbFeedback(errorMessage, errorColor)
+            })
+    }
+    addModal.style.display = "none"
+    linkClicked()
+}
 
 
 

@@ -93,6 +93,16 @@
     color: white
 }
 
+.recipe-link {
+    position: absolute;
+    bottom: 0
+}
+
+.card[id] .recipe-link{
+    position: absolute;
+    bottom: 45px
+}
+
 .edit-btn {
     background: linear-gradient(to right, #3597e7, #eb08c5);
 }
