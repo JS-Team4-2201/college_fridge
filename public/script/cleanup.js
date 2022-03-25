@@ -22,6 +22,11 @@ function empty(element) {
      }
 }
 
+// validates that ingredient contains no numeric values
+function validInput(str){
+    return /^[\.a-zA-Z, ]*$/.test(str);
+}
+
 // used to control modal visibility
 function displayModal(modal) {
     modal.style.display = "block"
@@ -34,8 +39,20 @@ function displayModal(modal) {
     })
 }
 
+// breaks down the ingredient by spaces and sees if our the ingredient is apart of our tags that we provided
+function tagContains(tagArray, currentIngredient){
+    let checkArr = currentIngredient.innerText.split(" ");
+    //console.log(tagArray)
+    for (let i = 0; i < checkArr.length; i++) {
+        if(tagArray.includes(checkArr[i])){
+            return true;
+        }
+    }
+    return false;
+}
+
 // success/error popups
-function dbFeedback(message, color) {
+function feedback(message, color) {
     return Toastify({
         text: message,
         className: "info",
@@ -46,4 +63,4 @@ function dbFeedback(message, color) {
       }).showToast();
 }
 
-export { clearResults, resetField, resetForm, empty, displayModal, dbFeedback }
+export { clearResults, resetField, resetForm, empty, validInput, displayModal, tagContains, feedback }

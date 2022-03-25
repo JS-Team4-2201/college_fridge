@@ -5,7 +5,6 @@ const failMessage = "Request Failed - check data and try again"
 
 router.get("/", async (req, res, next) => {
     try{
-        const getRecipes = await recipes.find()
         res.render("index")
     } catch {
         res.status(404).json({success: false, data: failMessage})
